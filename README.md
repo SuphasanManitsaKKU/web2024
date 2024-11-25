@@ -9,4 +9,4 @@ ID : 653380152-9
 
 Section : 1
 
-Index : [https://my-aespa.github.io/Web2024/](https://suphasanmanitsakku.github.io/web2024/)
+Index : https://suphasanmanitsakku.github.io/web2024/
