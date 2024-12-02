@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>work 1: แบบทดสอบ ม.1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- คะแนนที่มุมขวาบน -->
+        <div v-if="scoreDisplay" class="position-fixed mt-2 me-2 top-0 end-0 bg-light text-dark p-3 rounded shadow-sm">
+            คะแนน: {{ score }}
+        </div>
+
+        <!-- ส่วนหัว -->
+        <div class="container-fluid p-5 bg-primary text-white text-center">
+            <h1>แบบทดสอบ เข้าม.1</h1>
+        </div>
+
+        <!-- ปุ่มเริ่มทำแบบทดสอบ -->
+        <div class="container mt-5" v-if="step === 'start'">
+            <div class="row">
+                <button class="btn btn-primary" @click="startQuiz">เริ่มทำแบบทดสอบ</button>
+            </div>
+        </div>
+
+        <!-- ส่วนแสดงคำถาม -->
+        <div class="container mt-5" v-if="step === 'quiz'">
+            <div class="row mb-4" v-for="(quiz, index) in quizData" :key="index">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ index + 1 }}. {{ quiz.title }}</h5>
+                        <div v-for="(option, optIndex) in quiz.option" :key="optIndex" class="form-check">
+                            <input class="form-check-input" type="radio" :name="'quiz-' + index"
+                                :id="'quiz-' + index + '-opt-' + optIndex" :value="optIndex + 1"
+                                v-model="userAnswers[index]">
+                            <label class="form-check-label" :for="'quiz-' + index + '-opt-' + optIndex">
+                                {{ letters[optIndex] }} {{ option }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-3" @click="checkAnswers">ตรวจคำตอบ</button>
+        </div>
+
+        <!-- ส่วนแสดงเฉลย -->
+        <div class="container mt-5" v-if="step === 'answers'">
+            <h3 class="text-center mb-4">เฉลยคำตอบ</h3>
+            <div class="row mb-4" v-for="(quiz, index) in quizData" :key="'answer-' + index">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ index + 1 }}. {{ quiz.title }}</h5>
+                        <ul class="list-group">
+                            <li v-for="(option, optIndex) in quiz.option" :key="'option-' + optIndex"
+                                class="list-group-item"
+                                :class="{
+                                    'list-group-item-success': optIndex + 1 === quiz.answer,
+                                    'list-group-item-danger': optIndex + 1 === userAnswers[index] && optIndex + 1 !== quiz.answer
+                                }">
+                                {{ letters[optIndex] }} {{ option }}
+                                <span v-if="optIndex + 1 === quiz.answer"> (คำตอบที่ถูกต้อง)</span>
+                                <span v-if="optIndex + 1 === userAnswers[index] && optIndex + 1 !== quiz.answer">
+                                    (คำตอบที่คุณเลือก)
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="mt-2" :class="{ 'text-success': userAnswers[index] === quiz.answer, 'text-danger': userAnswers[index] !== quiz.answer }">
+                            {{ userAnswers[index] === quiz.answer ? 'ถูกต้อง' : 'ผิด' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-secondary" @click="retryQuiz">กลับไปที่หน้าแบบทดสอบ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    step: 'start', // start, quiz, answers
+                    quizData: [],
+                    userAnswers: [],
+                    score: 0,
+                    scoreDisplay: false,
+                    letters: ['ก.', 'ข.', 'ค.', 'ง.']
+                };
+            },
+            methods: {
+                async startQuiz() {
+                    try {
+                        const response = await fetch('./quiz.json');
+                        this.quizData = await response.json();
+                        this.userAnswers = Array(this.quizData.length).fill(null);
+                        this.step = 'quiz';
+                    } catch (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถโหลดคำถามได้ กรุณาลองใหม่อีกครั้ง!'
+                        });
+                    }
+                },
+                checkAnswers() {
+                    if (this.userAnswers.includes(null)) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'กรุณาทำข้อสอบให้ครบทุกข้อ',
+                            text: 'คุณยังตอบคำถามไม่ครบทุกข้อ กรุณาตรวจสอบอีกครั้ง!'
+                        });
+                        return;
+                    }
+
+                    this.score = this.userAnswers.reduce((score, answer, index) => {
+                        return score + (answer === this.quizData[index].answer ? 1 : 0);
+                    }, 0);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ผลคะแนนของคุณ',
+                        text: `คุณได้คะแนน ${this.score} จาก ${this.quizData.length} ข้อ`
+                    });
+
+                    this.scoreDisplay = true;
+                    this.step = 'answers';
+                },
+                retryQuiz() {
+                    this.step = 'start';
+                    this.scoreDisplay = false;
+                }
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
