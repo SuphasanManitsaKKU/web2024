@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>work 1: แบบทดสอบด้วย ReactJS</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [step, setStep] = useState('start');
+            const [quizData, setQuizData] = useState([]);
+            const [userAnswers, setUserAnswers] = useState([]);
+            const [score, setScore] = useState(0);
+            const [scoreDisplay, setScoreDisplay] = useState(false);
+            const letters = ['ก.', 'ข.', 'ค.', 'ง.'];
+
+            useEffect(() => {
+                if (step === 'quiz') {
+                    fetchQuizData();
+                }
+            }, [step]);
+
+            const fetchQuizData = async () => {
+                try {
+                    const response = await fetch('./quiz.json');
+                    const data = await response.json();
+                    setQuizData(data);
+                    setUserAnswers(Array(data.length).fill(null));
+                } catch (error) {
+                    Swal.fire({
+                        title: 'ข้อผิดพลาด',
+                        text: 'ไม่สามารถโหลดคำถามได้ กรุณาลองใหม่อีกครั้ง!',
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง'
+                    });
+                }
+            };
+
+            const startQuiz = () => {
+                setStep('quiz');
+            };
+
+            const checkAnswers = () => {
+                if (userAnswers.includes(null)) {
+                    Swal.fire({
+                        title: 'คำเตือน',
+                        text: 'กรุณาทำข้อสอบให้ครบทุกข้อ',
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง'
+                    });
+                    return;
+                }
+
+                const calculatedScore = userAnswers.reduce((score, answer, index) => {
+                    return score + (answer === quizData[index].answer ? 1 : 0);
+                }, 0);
+
+                setScore(calculatedScore);
+                Swal.fire({
+                    title: 'ผลการทดสอบ',
+                    text: `คุณได้คะแนน ${calculatedScore} จาก ${quizData.length} ข้อ`,
+                    icon: 'success',
+                    confirmButtonText: 'ตกลง'
+                });
+
+                setScoreDisplay(true);
+                setStep('answers');
+            };
+
+            const retryQuiz = () => {
+                setStep('start');
+                setScoreDisplay(false);
+            };
+
+            return (
+                <div id="app">
+                    {/* คะแนนที่มุมขวาบน */}
+                    {scoreDisplay && (
+                        <div
+                            className="position-fixed mt-2 me-2 top-0 end-0 bg-light text-dark p-3 rounded shadow-sm"
+                            style={{ zIndex: 99999999 }}
+                        >
+                            คะแนน: {score}
+                        </div>
+                    )}
+
+                    {/* ส่วนหัว */}
+                    <div className="container-fluid p-5 bg-primary text-white text-center">
+                        <h1>แบบทดสอบ เข้าม.1</h1>
+                    </div>
+
+                    {/* ปุ่มเริ่มทำแบบทดสอบ */}
+                    {step === 'start' && (
+                        <div className="container mt-5">
+                            <div className="row">
+                                <button className="btn btn-primary" onClick={startQuiz}>
+                                    เริ่มทำแบบทดสอบ
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ส่วนแสดงคำถาม */}
+                    {step === 'quiz' && (
+                        <div className="container mt-5">
+                            <div className="row mb-4">
+                                {quizData.map((quiz, index) => (
+                                    <div className="card mb-4" key={index}>
+                                        <div className="card-body">
+                                            <h5 className="card-title">
+                                                {index + 1}. {quiz.title}
+                                            </h5>
+                                            {quiz.option.map((option, optIndex) => (
+                                                <div className="form-check" key={optIndex}>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        name={`quiz-${index}`}
+                                                        id={`quiz-${index}-opt-${optIndex}`}
+                                                        value={optIndex + 1}
+                                                        onChange={() => {
+                                                            const updatedAnswers = [...userAnswers];
+                                                            updatedAnswers[index] = optIndex + 1;
+                                                            setUserAnswers(updatedAnswers);
+                                                        }}
+                                                        checked={userAnswers[index] === optIndex + 1}
+                                                    />
+                                                    <label
+                                                        className="form-check-label"
+                                                        htmlFor={`quiz-${index}-opt-${optIndex}`}
+                                                    >
+                                                        {letters[optIndex]} {option}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="btn btn-primary mt-3" onClick={checkAnswers}>
+                                ตรวจคำตอบ
+                            </button>
+                        </div>
+                    )}
+
+                    {/* ส่วนแสดงเฉลย */}
+                    {step === 'answers' && (
+                        <div className="container mt-5">
+                            <h3 className="text-center mb-4">เฉลยคำตอบ</h3>
+                            <div className="row mb-4">
+                                {quizData.map((quiz, index) => (
+                                    <div className="card mb-4" key={`answer-${index}`}>
+                                        <div className="card-body">
+                                            <h5 className="card-title">
+                                                {index + 1}. {quiz.title}
+                                            </h5>
+                                            <ul className="list-group">
+                                                {quiz.option.map((option, optIndex) => (
+                                                    <li
+                                                        key={`option-${optIndex}`}
+                                                        className={`list-group-item ${optIndex + 1 === quiz.answer
+                                                                ? 'list-group-item-success'
+                                                                : ''
+                                                            } ${optIndex + 1 === userAnswers[index] &&
+                                                                optIndex + 1 !== quiz.answer
+                                                                ? 'list-group-item-danger'
+                                                                : ''
+                                                            }`}
+                                                    >
+                                                        {letters[optIndex]} {option}
+                                                        {optIndex + 1 === quiz.answer && (
+                                                            <span> (คำตอบที่ถูกต้อง)</span>
+                                                        )}
+                                                        {optIndex + 1 === userAnswers[index] &&
+                                                            optIndex + 1 !== quiz.answer && (
+                                                                <span> (คำตอบที่คุณเลือก)</span>
+                                                            )}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            <p
+                                                className={`mt-2 ${userAnswers[index] === quiz.answer
+                                                        ? 'text-success'
+                                                        : 'text-danger'
+                                                    }`}
+                                            >
+                                                {userAnswers[index] === quiz.answer ? 'ถูกต้อง' : 'ผิด'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="text-center mt-4">
+                                <button className="btn btn-secondary" onClick={retryQuiz}>
+                                    กลับไปที่หน้าแบบทดสอบ
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Mount the React component
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
