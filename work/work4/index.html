@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+
+</head>
+
+<body>
+    <a-scene>
+        <a-asset-item id="dancing-character" src="./asset/man.glb"></a-asset-item>
+
+        <a-sky color="#ffffff" src="./asset/sky.jpg"></a-sky>
+
+        <a-entity gltf-model="./asset/cat.glb" position="-3 -1.5 -3" scale="1 1 1s"
+            animation__rotate="property: rotation; to: 0 360 0; dur: 3000; easing: linear; loop: true"></a-entity>
+        <a-entity gltf-model="./asset/cat.glb" position="3 -1.5 -3" scale="1 1 1s"
+            animation__rotate="property: rotation; to: 0 360 0; dur: 3000; easing: linear; loop: true"></a-entity>
+
+        <a-entity gltf-model="./asset/forest.glb" position="-1 11.5 -2.5" scale=" 120 120 120"></a-entity>
+
+        <a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>
+        <a-light type="spot" position="0 5 -2" angle="45" intensity="1"></a-light>
+        <a-light type="directional" color="#ffffff" intensity="1" position="0 0 0"></a-light>
+
+        <a-entity gltf-model="#dancing-character" position="0 -1.5 -3" scale="2 2 2" animation-mixer></a-entity>
+
+        <a-camera position="0 5 10" rotation="0 0 0">
+            <a-cursor></a-cursor>
+        </a-camera>
+        </a-entity>
+        <a-text value="Suphasan Manitsa 653380152-9 sec 1 " position="0 15 -4" align="center" color="#000000"
+            scale="2 2 2"></a-text>
+        <a-text
+            value="⚡️ Hi, I’m Suphasan Manitsa from Computer Science KKU
+
+        I'm Suphasan from Khon Kaen University 🎓. A Backend dev with a deep curiosity for the ins and outs of the Software Development Process 🛠️✨. Just out here leveling up my skills and looking for internship opportunities to grow even further 🚀🤝."
+            position="0 12 -4" align="center" color="#000000" scale="2 2 2"></a-text>
+    </a-scene>
+</body>
+
+</html>
