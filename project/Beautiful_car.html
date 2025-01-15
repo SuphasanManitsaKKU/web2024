@@ -25,14 +25,14 @@
 
         <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
         <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
-            <a-box position="1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="-1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 3 0" width="3.2" height="0.2" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="-1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box>
             <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
                 static-body>
                 <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
             </a-box>
-            <a-text value="Walk through to Hall Car" position="0 3.4 0" align="center" color="white"
+            <a-text value="Walk through to Hall Car" position="0 3.5 0" align="center" color="white"
                 scale="1 1 1"></a-text>
         </a-entity>
 
@@ -135,84 +135,115 @@
             }
         });
 
-        
+        // ฟังก์ชันหมุนรถ
+        function rotateCar(car) {
+            let rotation = 0;
+            const initialPosition = car.getAttribute('position');
+            const initialRotation = car.getAttribute('rotation');
 
-        ////////////////////////// popup function //////////////////////////////////////////////
+            // สร้าง interval สำหรับการหมุน
+            const rotateInterval = setInterval(() => {
+                rotation += 1;
+                car.setAttribute('rotation', `0 ${rotation} 0`);
 
+                if (rotation >= 360) {
+                    rotation = 0;
+                }
+            }, 16);
+
+            // ส่งค่า interval กลับเพื่อใช้ในการหยุดการหมุน
+            return {
+                interval: rotateInterval,
+                resetPosition: () => {
+                    car.setAttribute('position', initialPosition);
+                    car.setAttribute('rotation', initialRotation);
+                }
+            };
+        }
+
+        //////////////////////////// pop-up function ////////////////////////////////
         const popup = document.querySelector('#popup');
         const popupTitle = document.querySelector('#popup-title');
         const popupModel = document.querySelector('#popup-model');
         const popupYear = document.querySelector('#popup-year');
         const popupPrice = document.querySelector('#popup-price');
         const popupColor = document.querySelector('#popup-color');
-        const camera = document.querySelector('a-camera'); // กล้องใน scene
-        const MAX_DISTANCE = 9; // กำหนดระยะห่างสูงสุดที่อนุญาตให้คลิกได้ (หน่วย: เมตร)
+        const camera = document.querySelector('a-camera');
+        const MAX_DISTANCE = 9;
 
-        let pointerLocked = false; // สถานะ pointer lock
+        let pointerLocked = false;
+        let currentRotation = null; // เก็บข้อมูลการหมุนปัจจุบัน
 
-        // เพิ่ม event listener ให้กับโมเดลรถทั้งหมด
+        // เพิ่ม event listener สำหรับรถทุกคัน
         document.querySelectorAll('.clickable').forEach(car => {
             car.addEventListener('click', function () {
                 const carPosition = new THREE.Vector3();
-                car.object3D.getWorldPosition(carPosition); // ตำแหน่งของรถ
+                car.object3D.getWorldPosition(carPosition);
 
                 const cameraPosition = new THREE.Vector3();
-                camera.object3D.getWorldPosition(cameraPosition); // ตำแหน่งของกล้อง
+                camera.object3D.getWorldPosition(cameraPosition);
 
-                const distance = carPosition.distanceTo(cameraPosition); // คำนวณระยะห่าง
+                const distance = carPosition.distanceTo(cameraPosition);
 
                 if (distance <= MAX_DISTANCE) {
-                    // ดึงข้อมูลจาก data-* attribute ของรถที่คลิก
+                    // ดึงข้อมูลรถ
                     const model = car.getAttribute('data-model');
                     const year = car.getAttribute('data-year');
                     const price = car.getAttribute('data-price');
                     const color = car.getAttribute('data-color');
 
-                    // อัปเดตเนื้อหาใน pop-up
+                    // อัปเดตเนื้อหา popup
                     popupTitle.textContent = 'Car Details';
                     popupModel.textContent = `Model: ${model}`;
                     popupYear.textContent = `Year: ${year}`;
                     popupPrice.textContent = `Price: ${price}`;
                     popupColor.textContent = `Color: ${color}`;
 
-                    // แสดง pop-up
+                    // แสดง popup และเริ่มหมุนรถ
                     popup.style.display = 'block';
-                    disablePointerLock(); // ปิด pointer lock
+                    currentRotation = rotateCar(car);
+                    car.classList.add('no-click'); // ป้องกันการคลิกซ้ำ
+                    disablePointerLock();
                 } else {
                     console.log(`Too far to interact with the car. Distance: ${distance.toFixed(2)} meters`);
                 }
             });
         });
 
-        // ฟังก์ชันปิด pop-up
+        // ฟังก์ชันปิด popup
         function closePopup() {
+            if (currentRotation) {
+                clearInterval(currentRotation.interval); // หยุดการหมุน
+                currentRotation.resetPosition(); // รีเซ็ตตำแหน่งรถ
+                currentRotation = null;
+            }
+
             popup.style.display = 'none';
-            enablePointerLock(); // เปิด pointer lock อีกครั้ง
+            document.querySelectorAll('.clickable').forEach(car => {
+                car.classList.remove('no-click'); // เปิดใช้งานการคลิกอีกครั้ง
+            });
+            enablePointerLock();
         }
 
-        // ฟังก์ชันปิด pointer lock
         function disablePointerLock() {
             document.exitPointerLock();
             pointerLocked = false;
         }
 
-        // ฟังก์ชันเปิด pointer lock
         function enablePointerLock() {
             const scene = document.querySelector('a-scene');
             scene.requestPointerLock();
             pointerLocked = true;
         }
 
-        // ปิด popup เมื่อกดปุ่ม Escape
+        // Event listeners สำหรับการปิด popup
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape' && popup.style.display === 'block') {
                 closePopup();
             }
         });
 
-        // เพิ่ม event listener ให้ปุ่ม X บน popup
         document.querySelector('.close-btn').addEventListener('click', closePopup);
-
 
     </script>
 </body>

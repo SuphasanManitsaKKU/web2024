@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Text Box</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script>
+        // คอมโพเนนต์สำหรับการแสดง/ซ่อนกล่องข้อความ
+        AFRAME.registerComponent('toggle-message-box', {
+            schema: {
+                boxId: { type: 'string' } // ID ของกล่องข้อความที่จะควบคุม
+            },
+            init: function () {
+                // อ้างอิงถึงกล่องข้อความ
+                this.boxEl = document.querySelector(`#${this.data.boxId}`);
+                this.isVisible = false; // สถานะเริ่มต้น (ซ่อน)
+
+                // เพิ่ม Event Listener สำหรับการคลิก
+                this.el.addEventListener('click', () => {
+                    this.isVisible = !this.isVisible; // สลับสถานะ
+                    this.boxEl.setAttribute('visible', this.isVisible); // แสดง/ซ่อนกล่องข้อความ
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <a-scene>
+        <!-- โมเดล -->
+        <a-entity gltf-model="./models/decorate/hako-chan.glb" rotation="0 270 0" position="-3 1 -3"
+            scale="1.25 1.5 1.5" toggle-message-box="boxId: message-box">
+        </a-entity>
+
+        <!-- กล่องข้อความ -->
+        <a-entity id="message-box" position="-3 2.5 -3" visible="false">
+            <!-- กล่องพื้นหลัง -->
+            <a-plane width="3" height="1" color="yellow" position="0 0 0"></a-plane>
+            <!-- ข้อความ -->
+            <a-text value="Hello, I am Hako-chan!" position="0 0 0.1" align="center" color="black" scale="1 1 1">
+            </a-text>
+        </a-entity>
+
+        <!-- กล้องและตัวผู้เล่น -->
+        <a-entity position="0 0 0" rotation="0 0 0">
+            <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
+                <a-cursor color="#FFFFFF"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
+            </a-camera>
+        </a-entity>
+    </a-scene>
+</body>
+
+</html>
