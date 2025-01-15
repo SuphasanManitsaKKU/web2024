@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+</head>
+
+<body>
+    <a-scene physics="debug: true">
+        <a-sky color="#ffffff" src="./background/sky.jpg"></a-sky>
+
+         <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
+         <a-entity rotation="0 180" position="0 0 -23" visible="false" portal-one static-body>
+            <a-box position="1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" rotation="0 18 0" static-body></a-box>
+            <a-box position="-1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" rotation="0 18 0" static-body></a-box>
+            <a-box position="0 3 0" width="3.2" height="0.2" depth="0.2" color="#8B4513" rotation="0 18 0" static-body></a-box>
+            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange" rotation="0 18 0" static-body>
+                <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
+            </a-box>
+            <a-text value="Walk through to Hall Car" position="0 3.4 0" align="center" color="black" scale="1 1 1"></a-text>
+        </a-entity>
+
+        <a-entity gltf-model="./models/showroom/Center.glb" rotation="0 -45 0" position="-140 -16.2 -40"
+            scale="1 1 1"></a-entity>
+
+        
+        <!-- กล้องและตัวผู้เล่น -->
+        <a-entity position="0 0 0" rotation="0 0 0">
+            <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
+                <a-cursor color="#FFFFFF"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
+            </a-camera>
+        </a-entity>
+
+
+    </a-scene>
+    <script>
+        // ฟังก์ชันประตู 1
+        AFRAME.registerComponent('portal-one', {
+            init: function () {
+                this.camera = document.querySelector('a-camera');
+                this.portalActivated = false;
+                this.raycaster = new THREE.Raycaster();
+                this.raycaster.far = 5;
+            },
+
+            tick: function () {
+                if (this.portalActivated || !this.camera) return;
+
+                const cameraPosition = this.camera.object3D.position;
+                const cameraDirection = new THREE.Vector3();
+                this.camera.object3D.getWorldDirection(cameraDirection);
+
+                this.raycaster.ray.origin.copy(cameraPosition);
+                this.raycaster.ray.direction.copy(cameraDirection);
+
+                const intersects = this.raycaster.intersectObject(this.el.object3D, true);
+
+                if (intersects.length > 0.1) {
+                    console.log('Portal One activated!');
+                    this.portalActivated = true;
+                    window.location.replace('Hall.html'); // เปลี่ยนหน้าไปยัง Beautiful_car.html
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

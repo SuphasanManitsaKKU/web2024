@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <!-- Pop-up window -->
+        <div id="popup" class="popup">
+            <div class="close-btn" onclick="closePopup()">X</div>
+            <h3 id="popup-title">Car Details</h3>
+            <p id="popup-model"></p>
+            <p id="popup-year"></p>
+            <p id="popup-price"></p>
+            <p id="popup-color"></p>
+        </div>
+
+        <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
+        <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
+            <a-box position="1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="-1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 3 0" width="3.2" height="0.2" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
+                static-body>
+                <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
+            </a-box>
+            <a-text value="Walk through to Hall Car" position="0 3.4 0" align="center" color="white"
+                scale="1 1 1"></a-text>
+        </a-entity>
+
+        <!-- โคตรสวย เงางาม มีสี-->
+        <a-entity id="car1" gltf-model="./models/Beautiful_car/McLaren F1 1993 by Alex Ka.glb" position="35 0 -15"
+            rotation="0 -45" scale="1.8 1.8 1.8" class="clickable" data-model="McLaren F1 1993" data-year="1993"
+            data-price="$815,000 USD" data-color="White-Gray">
+        </a-entity>
+
+        <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="25 0 -15" rotation="0 -135"
+            scale="0.03 0.03 0.03" class="clickable" data-model="Tesla Model S" data-year="2022"
+            data-price="$79,990 USD" data-color="Red">
+        </a-entity>
+
+        <a-entity id="car3" gltf-model="./models/Beautiful_car/Porsche 911 Turbo.glb" position="15 0 -15"
+            rotation="0 -45" scale="0.8 0.8 0.8" class="clickable" data-model="Porsche 911 Turbo" data-year="2020"
+            data-price="$170,000 USD" data-color="Black">
+        </a-entity>
+
+        <a-entity id="car4" gltf-model="./models/Beautiful_car/2019 Bugatti Divo.glb" position="5 0 -15"
+            rotation="0 -45" scale="200 200 200" class="clickable" data-model="Bugatti Divo" data-year="2019"
+            data-price="$5,800,000 USD" data-color="Blue">
+        </a-entity>
+
+        <a-entity id="car5" gltf-model="./models/Beautiful_car/2021 Pagani Imola.glb" position="-5 0 -15"
+            rotation="0 45" scale="180 180 180" class="clickable" data-model="Pagani Imola" data-year="2021"
+            data-price="$5,400,000 USD" data-color="Silver">
+        </a-entity>
+
+        <a-entity id="car6" gltf-model="./models/Beautiful_car/2021 Maserati MC20.glb" position="-15 0 -15"
+            rotation="0 45" scale="180 180 180" class="clickable" data-model="Maserati MC20" data-year="2021"
+            data-price="$210,000 USD" data-color="White">
+        </a-entity>
+
+        <a-entity id="car7" gltf-model="./models/Beautiful_car/Aston Martin F1 AMR23 2023.glb" position="-25 0 -15"
+            rotation="0 45" scale="2 2 2" class="clickable" data-model="Aston Martin F1 AMR23" data-year="2023"
+            data-price="$3,000,000 USD" data-color="Green">
+        </a-entity>
+
+        <a-entity id="car8" gltf-model="./models/Beautiful_car/2018 Lotus Evora GT430.glb" position="-35 0 -15"
+            rotation="0 45" scale="150 150 150" class="clickable" data-model="Lotus Evora GT430" data-year="2018"
+            data-price="$120,000 USD" data-color="Yellow">
+        </a-entity>
+
+
+        <!-- car showroom -->
+        <!-- <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 0"
+            scale="3 4 2"></a-entity> -->
+        <!-- car showroom -->
+        <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 -10"
+            scale="3 4 1.25"></a-entity>
+
+        <!-- Camera with Enhanced Controls -->
+        <a-entity position="0 0 0" rotation="0 0 0">
+            <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
+                <a-cursor color="#FFFFFF"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
+            </a-camera>
+        </a-entity>
+
+
+        <!-- เพิ่มแสง Ambient -->
+        <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Directional -->
+        <a-light type="directional" position="5 10 5" intensity="1" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Point -->
+        <a-light type="point" position="0 3 0" intensity="2" color="#ffffff"></a-light>
+
+    </a-scene>
+
+    <script>
+        // ฟังก์ชันประตู 1
+        AFRAME.registerComponent('portal-one', {
+            init: function () {
+                this.camera = document.querySelector('a-camera');
+                this.portalActivated = false;
+                this.raycaster = new THREE.Raycaster();
+                this.raycaster.far = 5;
+            },
+
+            tick: function () {
+                if (this.portalActivated || !this.camera) return;
+
+                const cameraPosition = this.camera.object3D.position;
+                const cameraDirection = new THREE.Vector3();
+                this.camera.object3D.getWorldDirection(cameraDirection);
+
+                this.raycaster.ray.origin.copy(cameraPosition);
+                this.raycaster.ray.direction.copy(cameraDirection);
+
+                const intersects = this.raycaster.intersectObject(this.el.object3D, true);
+
+                if (intersects.length > 0.1) {
+                    console.log('Portal One activated!');
+                    this.portalActivated = true;
+                    window.location.replace('Hall.html'); // เปลี่ยนหน้าไปยัง Beautiful_car.html
+                }
+            }
+        });
+
+        
+
+        ////////////////////////// popup function //////////////////////////////////////////////
+
+        const popup = document.querySelector('#popup');
+        const popupTitle = document.querySelector('#popup-title');
+        const popupModel = document.querySelector('#popup-model');
+        const popupYear = document.querySelector('#popup-year');
+        const popupPrice = document.querySelector('#popup-price');
+        const popupColor = document.querySelector('#popup-color');
+        const camera = document.querySelector('a-camera'); // กล้องใน scene
+        const MAX_DISTANCE = 9; // กำหนดระยะห่างสูงสุดที่อนุญาตให้คลิกได้ (หน่วย: เมตร)
+
+        let pointerLocked = false; // สถานะ pointer lock
+
+        // เพิ่ม event listener ให้กับโมเดลรถทั้งหมด
+        document.querySelectorAll('.clickable').forEach(car => {
+            car.addEventListener('click', function () {
+                const carPosition = new THREE.Vector3();
+                car.object3D.getWorldPosition(carPosition); // ตำแหน่งของรถ
+
+                const cameraPosition = new THREE.Vector3();
+                camera.object3D.getWorldPosition(cameraPosition); // ตำแหน่งของกล้อง
+
+                const distance = carPosition.distanceTo(cameraPosition); // คำนวณระยะห่าง
+
+                if (distance <= MAX_DISTANCE) {
+                    // ดึงข้อมูลจาก data-* attribute ของรถที่คลิก
+                    const model = car.getAttribute('data-model');
+                    const year = car.getAttribute('data-year');
+                    const price = car.getAttribute('data-price');
+                    const color = car.getAttribute('data-color');
+
+                    // อัปเดตเนื้อหาใน pop-up
+                    popupTitle.textContent = 'Car Details';
+                    popupModel.textContent = `Model: ${model}`;
+                    popupYear.textContent = `Year: ${year}`;
+                    popupPrice.textContent = `Price: ${price}`;
+                    popupColor.textContent = `Color: ${color}`;
+
+                    // แสดง pop-up
+                    popup.style.display = 'block';
+                    disablePointerLock(); // ปิด pointer lock
+                } else {
+                    console.log(`Too far to interact with the car. Distance: ${distance.toFixed(2)} meters`);
+                }
+            });
+        });
+
+        // ฟังก์ชันปิด pop-up
+        function closePopup() {
+            popup.style.display = 'none';
+            enablePointerLock(); // เปิด pointer lock อีกครั้ง
+        }
+
+        // ฟังก์ชันปิด pointer lock
+        function disablePointerLock() {
+            document.exitPointerLock();
+            pointerLocked = false;
+        }
+
+        // ฟังก์ชันเปิด pointer lock
+        function enablePointerLock() {
+            const scene = document.querySelector('a-scene');
+            scene.requestPointerLock();
+            pointerLocked = true;
+        }
+
+        // ปิด popup เมื่อกดปุ่ม Escape
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && popup.style.display === 'block') {
+                closePopup();
+            }
+        });
+
+        // เพิ่ม event listener ให้ปุ่ม X บน popup
+        document.querySelector('.close-btn').addEventListener('click', closePopup);
+
+
+    </script>
+</body>
+
+</html>
+
+<!-- https://www.cgtrader.com/items/5444846/download-page -->
+
+<!-- https://poly.pizza/m/1jB8I4t5w4 -->
+
+<!-- Chevrolet Camaro -->
+<!-- https://poly.pizza/m/kVcKsd2dEk -->
+
+<!-- https://www.cgtrader.com/items/3631502/download-page -->
+
+<!-- Buggy -->
+<!-- https://poly.pizza/m/eZ_13w7qZh7 -->
+
+<!-- Nissan GTR -->
+<!-- https://poly.pizza/m/a_HKCtYAv2W -->
+
+<!-- 1994 Nissan 180MX -->
+<!-- https://poly.pizza/m/c7vlPQ8dlt -->
+
+<!-- Lamboghini -->
+<!-- https://poly.pizza/m/5zUWP5UsLg- -->
+
+<!-- < https://www.cgtrader.com/items/3070191/download-page  -->
+
+<!-- AUDI R8 2017 -->
+<!-- https://www.cgtrader.com/items/3262252/download-page -->
+
+<!-- Kawasaki Ninja H2 -->
+<!-- https://sketchfab.com/3d-models/kawasaki-ninja-h2-free-0ab38d6e39664b25bfaf9f5c3e0c767c -->
+
+<!-- Porsche 911 Carrera 4S -->
+<!-- https://sketchfab.com/3d-models/free-porsche-911-carrera-4s-d01b254483794de3819786d93e0e1ebf -->
+
+<!-- Alfa Romeo Stradale 1967 -->
+<!-- https://sketchfab.com/3d-models/alfa-romeo-stradale-1967-fbb6adc7a6e84c3db6969e1debcd364b -->
+
+
+<!-- รถยนต์ -->
+<!-- McLaren F1 1993 -->
+<!-- https://sketchfab.com/3d-models/mclaren-f1-1993-by-alexka-294df724d96241cdbe0e0f3c91ad7fce -->
+
+<!-- 2005 Lamborghini Murciélago -->
+<!-- https://sketchfab.com/3d-models/2005-lamborghini-murcielago-8313bb623c62469d9a44e0b733b550d2 -->
+
+<!-- 2022 Lamborghini Huracán Super Trofeo EVO2 -->
+<!-- https://sketchfab.com/3d-models/2022-lamborghini-huracan-super-trofeo-evo2-carb-e42420a3b48548439571f748b5094661 -->
+
+<!-- 2020 Ford Shelby Super Snake -->
+<!-- https://sketchfab.com/3d-models/2020-ford-shelby-super-snake-d622935bf46d40b5a4a7c8abdd7cb3a7 -->
+
+<!-- 2011 Bugatti Veyron Super Sport -->
+<!-- https://sketchfab.com/3d-models/2011-bugatti-veyron-super-sport-b2eecbbc2dcd41e68494e33af6882e00 -->
+
+<!-- lamborghini-invencible -->
+<!-- https://sketchfab.com/3d-models/2023-lamborghini-invencible-fec27b57fb4c4d3d9615645907b8452c -->
+
+<!-- Tesla Roadster 2020 -->
+<!-- https://sketchfab.com/3d-models/tesla-roadster-2020-1fbf29e297bd4a17ac39a00a378441d8 -->
+
+<!-- nissan-gt-r-nismo -->
+<!-- https://sketchfab.com/3d-models/2024-nissan-gt-r-nismo-20a14338df064c06a3606bab6894adbc -->
+
+<!-- porsche-911 -->
+<!-- https://www.cgtrader.com/free-3d-models/car/car/porsche-911-turbo-dbf196eb-4215-48eb-a370-2670d1a44d45 -->
+
+<!-- showroom1 -->
+<!-- https://sketchfab.com/3d-models/car-showroom-1-40b0ae06eb8343e5bacf34e04fcfff73#download -->
+
+<!-- Low-poly truck (car "Drifter") -->
+<!-- https://sketchfab.com/3d-models/low-poly-truck-car-drifter-f3750246b6564607afbefc61cb1683b1 -->
+
+<!-- Car -->
+<!-- https://sketchfab.com/3d-models/car-acccd15d4e454399a39dbe40f4f6df71 -->
+
+<!-- Bottled car -->
+<!-- https://sketchfab.com/3d-models/bottled-car-cd38a415db8a4607ab9dd3cc67d27462 -->
+
+<!-- Old Rusty Car -->
+<!-- https://sketchfab.com/3d-models/old-rusty-car-95baa20ebc5d4d2e869f0b549be838fe -->
+
+<!-- มอไซค์ -->
+
+<!-- Yamaha Vino -->
+<!-- https://sketchfab.com/3d-models/vino-2205f4e69bc64df3aab03c71ab9d7492 -->
+
+<!-- lightcycle-tron -->
+<!-- https://sketchfab.com/3d-models/lightcycle-tron-evolution-59b2d85a6fef416c9419a92f680e6abd -->
+
+<!-- McQueen -->
+<!-- https://www.cgtrader.com/items/5690548/download-page -->
+
+
+<!-- ferrari-f40-lm -->
+<!-- https://sketchfab.com/3d-models/1989-ferrari-f40-lm-8f67f3c0bbcc4e7084ee7f49cab9c7db -->
+
+<!-- 2019 Bugatti Divo -->
+<!-- https://sketchfab.com/3d-models/2019-bugatti-divo-7849e9f9cf2347c28fb5e41b1629991c -->
+
+<!-- 2021 Pagani Imola -->
+<!-- https://sketchfab.com/3d-models/2021-pagani-imola-41d59a9e413944ba82e4a230db4c170c -->
+
+<!-- 2021 Maserati MC20 -->
+<!-- https://sketchfab.com/3d-models/2021-maserati-mc20-6811b291cda74d468fab04298029135f -->
+
+<!-- Aston Martin F1 AMR23 2023 -->
+<!-- https://sketchfab.com/3d-models/aston-martin-f1-amr23-2023-f6ba825a43b146a9b669934a4e1fd529 -->
+
+<!-- 2018 Lotus Evora GT430 -->
+<!-- https://sketchfab.com/3d-models/2018-lotus-evora-gt430-aa58af64c5a74660b06ca517e8c7f50e -->
+
+<!-- moto guzzi v-twin -->
+<!-- https://sketchfab.com/3d-models/moto-guzzi-v-twin-923c2932481141c8a1966d427a5d3b30 -->
+
+<!-- Yamaha 500 custom motorbike -->
+<!-- https://sketchfab.com/3d-models/yamaha-500-custom-motorbike-48919202c90e4a4096714eaadf6769a3 -->
+
+
+<!-- Harley-Davidson Seventy-Two HD FXT 2015❤️ -->
+<!-- https://sketchfab.com/3d-models/harley-davidson-seventy-two-hd-fxt-2015-15e67a3076494bb99ba7504c9913ceb5 -->
+
+<!-- 1979 PA-50 50 cc Honda Hobbit Moped -->
+<!-- https://sketchfab.com/3d-models/1979-pa-50-50-cc-honda-hobbit-moped-a1b186f04d4b4654ab81b0d829007312 -->
+
+
+<!-- newcar ยังไม่โหลด -->

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+      .dialog-box {
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        color: black;
+        padding: 25px 30px;
+        border-radius: 15px;
+        font-size: 16px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 10;
+        max-width: 80%;
+        text-align: left; /* ชิดข้อความทางซ้าย */
+        position: relative;
+      }
+
+      .character-name {
+        position: absolute;
+        top: -20px; /* วางตำแหน่งชื่อด้านบนกล่องข้อความ */
+        left: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+
+      .dialog-text {
+        margin-top: 10px; /* เว้นระยะข้อความหลักจากชื่อ */
+        font-size: 20px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
+        font-weight: bold; /* ตัวหนา */
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene>
+      <!-- NPC: Car 1 -->
+      <a-entity id="car1" gltf-model="./models/Beautiful_car/tesla_model_s.glb" 
+      position="0 0 -5" 
+      rotation="0 -90 0" 
+      scale="0.03 0.03 0.03" 
+      class="clickable" 
+      data-message="Hello! I'm Car 1. Do you like my style?" 
+      data-name="Car 1"
+      cursor="rayOrigin: mouse">
+      </a-entity>
+      
+      <!-- NPC: Car 2 -->
+      <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" 
+      position="5 0 -5" 
+      rotation="0 -90 0" 
+      scale="0.03 0.03 0.03" 
+      class="clickable" 
+      data-message="Hey there! I'm Car 2, shiny and new!" 
+      data-name="Car 2"
+      cursor="rayOrigin: mouse">
+      </a-entity>
+      
+      <!-- NPC: Car 3 -->
+      <a-entity id="car3" gltf-model="./models/car3.glb" 
+      position="10 0 -5" 
+      rotation="0 -90 0" 
+      scale="0.03 0.03 0.03" 
+      class="clickable" 
+      data-message="Welcome! I'm Car 3. I'm ready for an adventure." 
+      data-name="Car 3"
+      cursor="rayOrigin: mouse">
+      </a-entity>
+
+      <!-- car showroom -->
+      <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 0" scale="3 4 2"></a-entity>
+    </a-scene>
+
+    <!-- Dialog box -->
+    <div id="dialog-box" class="dialog-box">
+      <div id="character-name" class="character-name"></div>
+      <div id="dialog-text" class="dialog-text"></div>
+    </div>
+
+    <script>
+      const dialogBox = document.querySelector('#dialog-box');
+      const characterName = document.querySelector('#character-name');
+      const dialogText = document.querySelector('#dialog-text');
+
+      // Add click event listener to each clickable entity
+      document.querySelectorAll('.clickable').forEach(car => {
+        car.addEventListener('click', function () {
+          // Get the name and message from data attributes
+          const name = car.getAttribute('data-name');
+          const message = car.getAttribute('data-message');
+
+          // Update and show the dialog box
+          characterName.textContent = name;
+          dialogText.textContent = message;
+          dialogBox.style.display = 'block';
+
+          // Auto-hide the dialog box after 3 seconds
+          setTimeout(() => {
+            dialogBox.style.display = 'none';
+          }, 3000);
+        });
+      });
+    </script>
+  </body>
+</html>
