@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <style>
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <h1>Loading...</h1>
+    </div>
+    <a-scene>
+        <!-- Pop-up window -->
+        <div id="popup" class="popup">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <h3 id="popup-title">Car Details</h3>
+            <p id="popup-model"></p>
+            <p id="popup-year"></p>
+            <p id="popup-price"></p>
+            <p id="popup-color"></p>
+            <p class="esc-hint">Click the X button, press Escape, or click the car model again to close the popup.</p>
+        </div>
+
+        <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
+        <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
+            <a-box position="1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="-1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 3 0" width="3.2" height="0.2" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
+                static-body>
+                <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
+            </a-box>
+            <a-text value="Walk through to Hall Car" position="0 3.4 0" align="center" color="white"
+                scale="1 1 1"></a-text>
+        </a-entity>
+
+        <!-- โคตรสวย เงางาม มีสี-->
+        <a-entity id="car1" gltf-model="./models/Beautiful_car/Bugatti Tourbillon 2026.glb" position="35 0.1 -15"
+            rotation="0 0 0" scale="1.8 1.8 1.8" class="clickable" data-model="Bugatti Tourbillon 2026" data-year="1993"
+            data-price="$815,000 USD" data-color="White-Gray">
+        </a-entity>
+
+        <!-- <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="35 -0.5 -5"
+            scale="10 10 10"></a-entity> -->
+
+        <a-entity id="car2" gltf-model="./models/Beautiful_car/Tesla Roadster 2020.glb" position="25 0 -15"
+            rotation="0 -45" scale="2 2 2" class="clickable" data-model="Tesla Model S" data-year="2022"
+            data-price="$79,990 USD" data-color="Red">
+        </a-entity>
+
+        <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="25 0 -15" rotation="0 -135"
+            scale="0.03 0.03 0.03" class="clickable" data-model="Tesla Model S" data-year="2022"
+            data-price="$79,990 USD" data-color="Red">
+        </a-entity>
+
+        <a-entity id="car3" gltf-model="./models/Beautiful_car/Porsche 911 Turbo.glb" position="15 0 -15"
+            rotation="0 -45" scale="0.8 0.8 0.8" class="clickable" data-model="Porsche 911 Turbo" data-year="2020"
+            data-price="$170,000 USD" data-color="Black">
+        </a-entity>
+
+        <a-entity id="car4" gltf-model="./models/Beautiful_car/2019 Bugatti Divo.glb" position="5 0 -15"
+            rotation="0 -45" scale="200 200 200" class="clickable" data-model="Bugatti Divo" data-year="2019"
+            data-price="$5,800,000 USD" data-color="Blue">
+        </a-entity>
+
+        <a-entity id="car5" gltf-model="./models/Beautiful_car/2021 Pagani Imola.glb" position="-5 0 -15"
+            rotation="0 45" scale="180 180 180" class="clickable" data-model="Pagani Imola" data-year="2021"
+            data-price="$5,400,000 USD" data-color="Silver">
+        </a-entity>
+
+        <a-entity id="car6" gltf-model="./models/Beautiful_car/2021 Maserati MC20.glb" position="-15 0 -15"
+            rotation="0 45" scale="180 180 180" class="clickable" data-model="Maserati MC20" data-year="2021"
+            data-price="$210,000 USD" data-color="White">
+        </a-entity>
+
+        <a-entity id="car7" gltf-model="./models/Beautiful_car/Aston Martin F1 AMR23 2023.glb" position="-25 0 -15"
+            rotation="0 45" scale="2 2 2" class="clickable" data-model="Aston Martin F1 AMR23" data-year="2023"
+            data-price="$3,000,000 USD" data-color="Green">
+        </a-entity>
+
+        <a-entity id="car8" gltf-model="./models/Beautiful_car/2018 Lotus Evora GT430.glb" position="-35 0 -15"
+            rotation="0 45" scale="150 150 150" class="clickable" data-model="Lotus Evora GT430" data-year="2018"
+            data-price="$120,000 USD" data-color="Yellow">
+        </a-entity>
+
+        <!-- ตกแต่ง -->
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 270 0" position="0 0.045 0"
+            scale="3.5 0.5 0.3">
+        </a-entity>
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 0 0" position="0 0.04 -9"
+            scale="14.5 0.5 0.3">
+        </a-entity>
+
+
+        <!-- car showroom -->
+        <!-- <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 0"
+            scale="3 4 2"></a-entity> -->
+
+        <a-sky color="#ffffff" src="./background/sky.jpg"></a-sky>
+        <a-entity gltf-model="./models/showroom/Modern Gallery Room.glb" rotation="0 90 0" position="0 0 -10"
+            scale="3 1.5 3"></a-entity>
+
+
+        <!-- Camera with Enhanced Controls -->
+        <a-entity position="0 1 0" rotation="0 0 0">
+            <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
+                <a-cursor color="#FFFFFF"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <!-- เพิ่มแสง Ambient -->
+        <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Directional -->
+        <a-light type="directional" position="5 10 5" intensity="1" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Point -->
+        <a-light type="point" position="0 3 0" intensity="2" color="#ffffff"></a-light>
+
+        <!-- เพลงพื้นหลัง -->
+        <audio id="background-audio" autoplay loop>
+            <source src="./sound/sound background/Selene Cover.mp3" type="audio/mpeg">
+        </audio>
+
+    </a-scene>
+
+    <script>
+
+        document.querySelector('a-scene').addEventListener('loaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.display = 'none';
+        });
+
+        ////////////////////// ฟังก์เพลงพื้นหลัง ////////////////////////////
+        // เข้าถึงแท็ก <audio>
+        const backgroundAudio = document.getElementById('background-audio');
+
+        // ตั้งค่าเสียง (ค่าระหว่าง 0.0 ถึง 1.0)
+        backgroundAudio.volume = 0.2; // ลดระดับเสียงลง 50%
+        backgroundAudio.muted = true; // ปิดเสียง
+
+        ////////////////////// ฟังก์ชันประตู 1 ////////////////////////////
+        AFRAME.registerComponent('portal-one', {
+            init: function () {
+                this.camera = document.querySelector('a-camera');
+                this.portalActivated = false;
+                this.raycaster = new THREE.Raycaster();
+                this.raycaster.far = 5;
+            },
+
+            tick: function () {
+                if (this.portalActivated || !this.camera) return;
+
+                const cameraPosition = this.camera.object3D.position;
+                const cameraDirection = new THREE.Vector3();
+                this.camera.object3D.getWorldDirection(cameraDirection);
+
+                this.raycaster.ray.origin.copy(cameraPosition);
+                this.raycaster.ray.direction.copy(cameraDirection);
+
+                const intersects = this.raycaster.intersectObject(this.el.object3D, true);
+
+                if (intersects.length > 0.1) {
+                    console.log('Portal One activated!');
+                    this.portalActivated = true;
+                    window.location.replace('Hall.html'); // เปลี่ยนหน้าไปยัง Beautiful_car.html
+                }
+            }
+        });
+
+        //////////////////////////////////// ฟังก์ชันหมุนรถ ///////////////////////////////////////////
+        function rotateCar(car) {
+            let rotation = 0; // เริ่มต้นที่การหมุน 0 องศา
+
+            // บันทึกตำแหน่งและการหมุนเริ่มต้นของรถ
+            const initialPosition = car.getAttribute('position');
+            const initialRotation = car.getAttribute('rotation');
+            const rotateInterval = setInterval(() => {
+                rotation += 1; // เพิ่มค่าการหมุน 1 องศาทุกๆ 16ms (ประมาณ 60 fps)
+                car.setAttribute('rotation', `0 ${rotation} 0`); // ตั้งค่าการหมุนในแกน Y (หมุนรอบแนวตั้ง)
+
+                // จำกัดการหมุนที่ 360 องศา แล้วเริ่มหมุนใหม่
+                if (rotation >= 360) {
+                    rotation = 0;
+                }
+            }, 16); // ทุกๆ 16ms (ประมาณ 60 ครั้งต่อวินาที)
+
+            // ส่งฟังก์ชันเพื่อหยุดหมุนและรีเซ็ตเมื่อ popup ถูกปิด
+            return function stopAndResetRotation() {
+                clearInterval(rotateInterval); // หยุดการหมุน
+                car.setAttribute('rotation', initialRotation); // รีเซ็ตตำแหน่งการหมุน
+                console.log('Rotation reset to:', initialRotation);
+            };
+        }
+
+        ////////////////////////// popup function //////////////////////////////////////////////
+
+        const popup = document.querySelector('#popup');
+        const popupTitle = document.querySelector('#popup-title');
+        const popupModel = document.querySelector('#popup-model');
+        const popupYear = document.querySelector('#popup-year');
+        const popupPrice = document.querySelector('#popup-price');
+        const popupColor = document.querySelector('#popup-color');
+        const camera = document.querySelector('a-camera'); // กล้องใน scene
+        const MAX_DISTANCE = 10; // กำหนดระยะห่างสูงสุดที่อนุญาตให้คลิกได้ (หน่วย: เมตร)
+
+        let stopRotationFunction = null; // ตัวแปรสำหรับจัดเก็บฟังก์ชันหยุดหมุน
+
+        // ฟังก์ชันปิด pop-up
+        function closePopup() {
+            console.log('Closing popup.');
+            popup.style.display = 'none';
+
+            // ถ้ามีการหมุนอยู่ ให้หยุดหมุนและรีเซ็ต
+            if (stopRotationFunction) {
+                stopRotationFunction();
+                stopRotationFunction = null; // รีเซ็ตตัวแปร
+            }
+        }
+
+        // เพิ่ม event listener ให้กับโมเดลรถทั้งหมด
+        document.querySelectorAll('.clickable').forEach(car => {
+            car.addEventListener('click', function () {
+                console.log(`Clicked on car:`, car); // ตรวจสอบว่ารถที่คลิกมีข้อมูลหรือไม่
+
+                // ตรวจสอบว่า popup กำลังแสดงอยู่หรือไม่
+                if (popup.style.display === 'block') {
+                    console.log('Popup is open. Closing popup.');
+                    closePopup(); // หาก popup แสดงอยู่ ให้ปิด popup
+                    return; // ออกจากฟังก์ชันเพื่อไม่ต้องแสดง popup ใหม่
+                }
+
+                const carPosition = new THREE.Vector3();
+                car.object3D.getWorldPosition(carPosition); // ตำแหน่งของรถ
+
+                const cameraPosition = new THREE.Vector3();
+                camera.object3D.getWorldPosition(cameraPosition); // ตำแหน่งของกล้อง
+
+                const distance = carPosition.distanceTo(cameraPosition); // คำนวณระยะห่าง
+                console.log(`Distance to car: ${distance.toFixed(2)} meters`);
+
+                if (distance <= MAX_DISTANCE) {
+                    console.log('Within distance. Showing popup.');
+
+                    // ดึงข้อมูลจาก data-* attribute ของรถที่คลิก
+                    const model = car.getAttribute('data-model');
+                    const year = car.getAttribute('data-year');
+                    const price = car.getAttribute('data-price');
+                    const color = car.getAttribute('data-color');
+
+                    console.log('Car data:', { model, year, price, color });
+
+                    // อัปเดตเนื้อหาใน pop-up
+                    popupTitle.textContent = 'Car Details';
+                    popupModel.textContent = `Model: ${model}`;
+                    popupYear.textContent = `Year: ${year}`;
+                    popupPrice.textContent = `Price: ${price}`;
+                    popupColor.textContent = `Color: ${color}`;
+
+                    // แสดง pop-up
+                    popup.style.display = 'block';
+                    console.log('Popup displayed.');
+
+                    // เรียกฟังก์ชันหมุนรถ และเก็บฟังก์ชันหยุดหมุนในตัวแปร
+                    stopRotationFunction = rotateCar(car);
+                } else {
+                    console.log(`Too far to interact with the car. Distance: ${distance.toFixed(2)} meters`);
+                }
+            });
+        });
+
+        // ปิด popup เมื่อกดปุ่ม Escape
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && popup.style.display === 'block') {
+                console.log('Escape pressed. Closing popup.');
+                closePopup();
+            }
+        });
+
+        // เพิ่ม event listener ให้ปุ่ม X บน popup
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            console.log('Close button clicked. Closing popup.');
+            closePopup();
+        });
+
+
+    </script>
+</body>
+
+</html>

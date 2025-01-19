@@ -1,28 +1,142 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
 .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-    display: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+  position: fixed;
+  top: 33%; /* ปรับตำแหน่งแนวตั้ง */
+  left: 80%; /* ปรับตำแหน่งแนวนอน */
+  transform: translate(-50%, -50%); /* ปรับให้อยู่กึ่งกลางตามจุดที่กำหนด */
+  background-color: rgba(50, 50, 50, 0.9); /* เพิ่มความเข้มของพื้นหลัง */
+  color: white;
+  padding: 20px 30px;
+  border-radius: 15px; /* ขอบมน */
+  width: 350px; /* เพิ่มขนาดเพื่อความสมดุล */
+  text-align: left;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* เพิ่มเงา */
+  font-family: "Arial", sans-serif; /* กำหนดฟอนต์ */
+}
+
+.popup h3 {
+  font-size: 22px; /* ขนาดใหญ่ขึ้นสำหรับหัวข้อ */
+  font-weight: bold; /* เน้นหัวข้อ */
+  color: #ffcc00; /* ใช้สีทองเพื่อความโดดเด่น */
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: 15px; /* เพิ่มระยะห่าง */
+}
+
+.popup p {
+  font-size: 18px; /* ขนาดข้อความปกติ */
+  line-height: 1.6; /* เพิ่มระยะห่างบรรทัด */
+  color: #ddd; /* สีข้อความรอง */
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+.popup .esc-hint {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #bbb;
+  text-align: center;
+  font-style: italic;
+}
+
+.popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff5c5c;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease; /* เพิ่มเอฟเฟกต์เปลี่ยนสี */
+}
+
+.popup .close-btn:hover {
+  background: #ff2e2e; /* สีแดงเข้มเมื่อวางเมาส์ */
+}
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000; /* พื้นหลังสีดำ */
+  color: white;
+  display: none; /* ซ่อนตอนเริ่มต้น */
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  font-family: 'Arial', sans-serif;
+}
+
+.spinner {
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top: 6px solid #ff6600;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
   }
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 20;
+  100% {
+      transform: rotate(360deg);
   }
-  .popup h3, .popup p {
-    color: black;
-  }
-  .no-click {
-    pointer-events: none; /* ป้องกันไม่ให้คลิกที่รถ */
-  } 
+}
+
+
+/* dialog */
+.dialog-box {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 25px 30px;
+  border-radius: 15px;
+  font-size: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 10;
+  max-width: 80%;
+  text-align: left;
+  position: relative;
+}
+
+.character-name {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.dialog-text {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+  

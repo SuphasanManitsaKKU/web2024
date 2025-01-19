@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -11,10 +12,80 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
 </head>
+
 <body>
-    <a-scene background="color: #FAFAFA">
-        <a-entity gltf-model="./models/showroom/Salamon Car Showroom.glb" rotation="0 0 0" position="-50 -8 100" scale="2 4 2"></a-entity>
+    <a-scene>
+        <!-- <a-entity gltf-model="./models/showroom/Show Room Tekom.glb" rotation="0 0 0" position="0 0 0" scale="1 1 1"></a-entity> -->
+        <!-- <a-entity gltf-model="./models/showroom/Modern Gallery Room.glb" rotation="0 0 0" position="0 0 0" scale="1 1 1"></a-entity> -->
+        <a-sky color="#ffffff" src="./background/sky.jpg"></a-sky>
+        <a-entity gltf-model="./models/showroom/Modern Themed Show Room Updated.glb" rotation="0 0 0" position="0 0 0"
+            scale="0.03 0.03 0.03"></a-entity>
+        <!-- มอเตอไซ -->
+        <a-entity id="moto1" gltf-model="./models/Motorcycle/kawashaki_ninja_h2.glb" position="35 0.35 -15"
+            rotation="0 45" scale="1.3 1.3 1.3" class="clickable" data-model="Kawasaki Ninja H2" data-year="2023"
+            data-price="$30,000 USD" data-color="Black"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="35 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto2" gltf-model="./models/Motorcycle/Lightcycle Tron Evolution.glb" position="25 0.2 -15"
+            rotation="0 -45" scale="3 3 3" class="clickable" data-model="Lightcycle Tron Evolution" data-year="2010"
+            data-price="$120,000 USD" data-color="Blue"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="25 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto3" gltf-model="./models/Motorcycle/Vino 3D Model.glb" position="15 3 -15" rotation="0 -45"
+            scale="2.4 2.4 2.4" class="clickable" data-model="Vino 3D Model" data-year="2021" data-price="$5,000 USD"
+            data-color="Red"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="15 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto4" gltf-model="./models/Motorcycle/Motorcycle.glb" position="5 0.2 -15" scale="2 2 2"
+            class="clickable"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="5 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto5" gltf-model="./models/Motorcycle/Motorcycle (2).glb" position="-5 0.2 -15" rotation="0 135"
+            scale="0.0025 0.0025 0.0025" class="clickable" data-model="Vintage Motorcycle" data-year="1985"
+            data-price="$15,000 USD" data-color="Green"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-5 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto6" gltf-model="./models/Motorcycle/Moto Guzzi V-Twin 3D Model.glb" position="-15 0.2 -15"
+            rotation="0 -45" scale="2.2 2.2 2.2" class="clickable" data-model="Moto Guzzi V-Twin" data-year="2020"
+            data-price="$12,000 USD" data-color="Black"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-15 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto7" gltf-model="./models/Motorcycle/Yamaha 500 Custom Motorbike.glb" position="-25 0.2 -15"
+            rotation="0 -45" scale="2.2 2.2 2.2" class="clickable" data-model="Yamaha 500 Custom" data-year="2018"
+            data-price="$9,500 USD" data-color="White"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-25 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <a-entity id="moto8" gltf-model="./models/Motorcycle/Harley Davidson Seventy Two 2015.glb"
+            position="-35 0.2 -15" rotation="0 45" scale="2.2 2.2 2.2" class="clickable"
+            data-model="Harley Davidson Seventy-Two" data-year="2015" data-price="$20,000 USD"
+            data-color="Orange"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-35 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <!-- เพิ่มแสง Ambient -->
+        <a-light type="ambient" intensity="0.75" color="white"></a-light>
+        <!-- เพิ่มแสง Directional -->
+        <a-light type="directional" position="5 10 5" intensity="1" color="white"></a-light>
+        <!-- เพิ่มแสง Point -->
+        <a-light type="point" position="0 0 0" intensity="0.01" color="white"></a-light>
+
     </a-scene>
-    
+
 </body>
+
 </html>

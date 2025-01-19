@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./controll.js"></script>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
@@ -12,51 +14,128 @@
 
 <body>
     <a-scene>
+
+        <!-- Pop-up window -->
+        <div id="popup" class="popup">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <h3 id="popup-title">Car Details</h3>
+            <p id="popup-model"></p>
+            <p id="popup-year"></p>
+            <p id="popup-price"></p>
+            <p id="popup-color"></p>
+            <p class="esc-hint">*Click the car model again to close the popup.</p>
+        </div>
+
         <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
         <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
-            <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <!-- <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
             <a-box position="-1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
+            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box> -->
+            <a-box position="0 1.5 -0.5" width="2.8" height="3.2" depth="0.1" material="opacity: 0.2; color: orange"
                 static-body>
                 <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
             </a-box>
-            <a-text value="Walk through to Hall Car" position="0 3.5 0" align="center" color="white"
-                scale="1 1 1"></a-text>
+
+            <!-- กรอบข้อความ -->
+            <a-box position="0 4.5 -0.75" depth="0.1" width="3.5" height="1.2" color="black" material="opacity: 0.8">
+            </a-box>
+
+            <!-- ข้อความ -->
+            <a-text value="Walk through to Hall Car" position="0 4.5 -0.65" align="center" color="white"
+                scale="1.2 1.2 1.2">
+            </a-text>
+        </a-entity>
+        <!-- กรอบประตู-->
+        <a-entity gltf-model="./models/decorate/Sci Fi Gate 3D Model.glb" rotation="0 0 0" position="0.75 0 6.25"
+            scale="0.3 0.25 0.25">
         </a-entity>
 
+        <!-- Booth -->
+        <a-entity gltf-model="./models/booth/Upstreet.ai Booth.glb" position="20 0 1.8" rotation="0 90 0"
+            scale="1.6 1.6 1.6"></a-entity>
+        <a-entity gltf-model="./models/booth/Tubby Cats Booth 3D Model.glb" position="-32.5 0 1.4" rotation="0 0 0"
+            scale="1.15 1.15 1.15"></a-entity>
+
+
+
+
         <!-- มอเตอไซ -->
-        <a-entity id="moto1" gltf-model="./models/Motorcycle/kawashaki_ninja_h2.glb" position="35 0.15 -15"
+        <a-entity id="moto1" gltf-model="./models/Motorcycle/kawashaki_ninja_h2.glb" position="35 0.35 -15"
             rotation="0 45" scale="1.3 1.3 1.3" class="clickable" data-model="Kawasaki Ninja H2" data-year="2023"
-            data-price="$30,000 USD" data-color="Black"></a-entity>
+            data-price="$30,000 USD" data-color="Black-Green"></a-entity>
 
-        <a-entity id="moto2" gltf-model="./models/Motorcycle/Lightcycle Tron Evolution.glb" position="25 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="35 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="moto2" gltf-model="./models/Motorcycle/Lightcycle Tron Evolution.glb" position="25 0.2 -15"
             rotation="0 -45" scale="3 3 3" class="clickable" data-model="Lightcycle Tron Evolution" data-year="2010"
-            data-price="$120,000 USD" data-color="Blue"></a-entity>
+            data-price="$120,000 USD" data-color="Black-Blue"></a-entity>
 
-        <a-entity id="moto3" gltf-model="./models/Motorcycle/Vino 3D Model.glb" position="15 2.8 -15" rotation="0 -45"
-            scale="2.4 2.4 2.4" class="clickable" data-model="Vino 3D Model" data-year="2021" data-price="$5,000 USD"
-            data-color="Red"></a-entity>
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="25 -0.5 -5"
+            scale="10 10 10"></a-entity>
 
-        <a-entity id="moto4" gltf-model="./models/Motorcycle/Motorcycle.glb" position="5 0 -15" rotation="0 -45"
-            scale="2 2 2" class="clickable" data-model="Standard Motorcycle" data-year="2019" data-price="$8,500 USD"
-            data-color="Silver"></a-entity>
+        <a-entity id="moto3" gltf-model="./models/Motorcycle/2022 Yamaha R1 3D Model.glb" position="15 0.1 -15"
+            rotation="0 135" scale="2 2 2" class="clickable" data-model="Yamaha R1 2022" data-year="2021"
+            data-price="$5,000 USD" data-color="Blue"></a-entity>
 
-        <a-entity id="moto5" gltf-model="./models/Motorcycle/Motorcycle (2).glb" position="-5 0 -15" rotation="0 135"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="15 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/Motorcycle/Suzuki GSXR 750 3D Model.glb" position="5 0.2 -15"
+            scale="2 2 2" rotation="0 -45" class="clickable" data-model="Suzuki GSXR 750" data-year="2015"
+            data-price="$20,000 USD" data-color="Black-White"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="5 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="moto5" gltf-model="./models/Motorcycle/Motorcycle (2).glb" position="-5 0.2 -15" rotation="0 135"
             scale="0.0025 0.0025 0.0025" class="clickable" data-model="Vintage Motorcycle" data-year="1985"
             data-price="$15,000 USD" data-color="Green"></a-entity>
 
-        <a-entity id="moto6" gltf-model="./models/Motorcycle/Moto Guzzi V-Twin 3D Model.glb" position="-15 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-5 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="moto6" gltf-model="./models/Motorcycle/Moto Guzzi V-Twin 3D Model.glb" position="-15 0.2 -15"
             rotation="0 -45" scale="2.2 2.2 2.2" class="clickable" data-model="Moto Guzzi V-Twin" data-year="2020"
-            data-price="$12,000 USD" data-color="Black"></a-entity>
+            data-price="$12,000 USD" data-color="Red"></a-entity>
 
-        <a-entity id="moto7" gltf-model="./models/Motorcycle/Yamaha 500 Custom Motorbike.glb" position="-25 0 -15"
-            rotation="0 -45" scale="2.2 2.2 2.2" class="clickable" data-model="Yamaha 500 Custom" data-year="2018"
-            data-price="$9,500 USD" data-color="White"></a-entity>
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-15 -0.5 -5"
+            scale="10 10 10"></a-entity>
 
-        <a-entity id="moto8" gltf-model="./models/Motorcycle/Harley Davidson Seventy Two 2015.glb" position="-35 0 -15"
-            rotation="0 45" scale="2.2 2.2 2.2" class="clickable" data-model="Harley Davidson Seventy-Two"
-            data-year="2015" data-price="$20,000 USD" data-color="Orange"></a-entity>
+        <a-entity id="moto7" gltf-model="./models/Motorcycle/Yamaha 500 Custom Motorbike.glb" position="-25 0.2 -15"
+            rotation="0 -45" scale="2.2 2.2 2.2" class="clickable" data-model="Yamaha 500 Custom Motorbike"
+            data-year="2018" data-price="$9,500 USD" data-color="Orange"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-25 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="moto8" gltf-model="./models/Motorcycle/Harley Davidson Seventy Two 2015.glb"
+            position="-35 0.2 -15" rotation="0 45" scale="2.2 2.2 2.2" class="clickable"
+            data-model="Harley Davidson Seventy Two 2015" data-year="2015" data-price="$20,000 USD"
+            data-color="Red"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-35 -0.5 -5"
+            scale="10 10 10"></a-entity>
+        <!-- ตกแต่ง -->
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 270 0" position="0 0.045 0"
+            scale="3.5 0.5 0.3">
+        </a-entity>
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 0 0" position="0 0.04 -9"
+            scale="13.5 0.5 0.3">
+        </a-entity>
+
+        <a-asset-item id="rabbit" src="./models/decorate/Rabbit Blond.glb"></a-asset-item>
+        <a-asset-item id="rabbit2" src="./models/decorate/Rabbit Grey.glb"></a-asset-item>
+        <!-- Rabbit Blond -->
+        <a-entity gltf-model="#rabbit" position="-2.8 0 -5" rotation="0 20 0" scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|Wave; timeScale: 0.5"
+            class="interactive" data-name="Rabbit Blond" data-message="Hi! Are you interested in cars too?">
+        </a-entity>
+        <!-- Rabbit Grey -->
+        <a-entity gltf-model="#rabbit2" position="20 0.25 1.8" rotation="0 60 0" scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|Duck; timeScale: 0.35"
+            class="interactive" data-name="Rabbit Grey" data-message="Wow! Oh my god, I can't believe it!">
+        </a-entity>
 
 
         <!-- car showroom -->
@@ -64,22 +143,50 @@
             scale="3 4 1.25"></a-entity>
 
         <!-- Camera with Enhanced Controls -->
-        <a-entity position="0 0 0" rotation="0 0 0">
+        <a-entity position="0 0.5 0" rotation="0 0 0">
             <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
                 <a-cursor color="#FFFFFF"
                     animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
             </a-camera>
         </a-entity>
+
+        <!-- เพิ่มแสง Ambient -->
+        <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Directional -->
+        <a-light type="directional" position="5 10 5" intensity="1" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Point -->
+        <a-light type="point" position="0 3 0" intensity="2" color="#ffffff"></a-light>
+        <!-- เพลงพื้นหลัง -->
+        <audio id="background-audio" autoplay loop>
+            <source src="./sound/sound background/Relaxing Music.mp3" type="audio/mpeg">
+        </audio>
     </a-scene>
 
+    <!-- Dialog box -->
+    <div id="dialog-box" class="dialog-box">
+        <div id="character-name" class="character-name"></div>
+        <div id="dialog-text" class="dialog-text"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dialogbox.js"></script>
     <script>
+        ////////////////////// ฟังก์เพลงพื้นหลัง ////////////////////////////
+        // เข้าถึงแท็ก <audio>
+        const backgroundAudio = document.getElementById('background-audio');
+
+        // ตั้งค่าเสียง (ค่าระหว่าง 0.0 ถึง 1.0)
+        backgroundAudio.volume = 0.02; // ลดระดับเสียงลง 50%
+        // backgroundAudio.muted = true; // ปิดเสียง
         // ฟังก์ชันประตู 1
         AFRAME.registerComponent('portal-one', {
             init: function () {
                 this.camera = document.querySelector('a-camera');
                 this.portalActivated = false;
                 this.raycaster = new THREE.Raycaster();
-                this.raycaster.far = 5;
+                this.raycaster.far = 1;
             },
 
             tick: function () {

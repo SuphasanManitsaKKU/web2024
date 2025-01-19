@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
     <link rel="stylesheet" href="./style.css">
+    <script defer src="./controll.js"></script>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
@@ -13,86 +14,158 @@
 
 <body>
     <a-scene>
+
         <!-- Pop-up window -->
         <div id="popup" class="popup">
-            <div class="close-btn" onclick="closePopup()">X</div>
+            <button class="close-btn" onclick="closePopup()">X</button>
             <h3 id="popup-title">Car Details</h3>
             <p id="popup-model"></p>
             <p id="popup-year"></p>
             <p id="popup-price"></p>
             <p id="popup-color"></p>
+            <p class="esc-hint">*Click the car model again to close the popup.</p>
         </div>
 
         <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
         <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
-            <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="-1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
+            <!-- <a-box position="1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="-1.5 1.5 0" width="0.2" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <a-box position="0 3 0" width="3.2" height="0.2" depth="0.2" color="#8B4513" static-body></a-box> -->
+            <a-box position="0 1.5 0" width="2.8" height="3.2" depth="0.1" material="opacity: 0.2; color: orange"
                 static-body>
                 <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
             </a-box>
-            <a-text value="Walk through to Hall Car" position="0 3.5 0" align="center" color="white"
-                scale="1 1 1"></a-text>
+            <!-- กรอบข้อความ -->
+            <a-box position="0 4.5 0" depth="0.1" width="4.5" height="1.2" color="black" material="opacity: 0.8">
+            </a-box>
+
+            <!-- ข้อความ -->
+            <a-text value="Walk through to Hall Car" position="0 4.5 0.1" align="center" color="white"
+                scale="1.2 1.2 1.2">
+            </a-text>
+        </a-entity>
+        <!-- กรอบประตู-->
+        <a-entity gltf-model="./models/decorate/Sci Fi Gate 3D Model.glb" rotation="0 0 0" position="0.75 0 5.75"
+            scale="0.3 0.25 0.25">
         </a-entity>
 
+
         <!-- โคตรสวย เงางาม มีสี-->
-        <a-entity id="car1" gltf-model="./models/Beautiful_car/McLaren F1 1993 by Alex Ka.glb" position="35 0 -15"
-            rotation="0 -45" scale="1.8 1.8 1.8" class="clickable" data-model="McLaren F1 1993" data-year="1993"
+        <a-entity id="car1" gltf-model="./models/Beautiful_car/Bugatti Tourbillon 2026.glb" position="70 0.3 -15"
+            rotation="0 -45" scale="200 200 200" class="clickable" data-model="Bugatti Tourbillon 2026" data-year="1993"
             data-price="$815,000 USD" data-color="White-Gray">
         </a-entity>
 
-        <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="25 0 -15" rotation="0 -135"
-            scale="0.03 0.03 0.03" class="clickable" data-model="Tesla Model S" data-year="2022"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="70 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car2" gltf-model="./models/Beautiful_car/Tesla Roadster 2020.glb" position="50 0.4 -15"
+            rotation="0 -45" scale="2 2 2" class="clickable" data-model="Tesla Roadster 2020" data-year="2022"
             data-price="$79,990 USD" data-color="Red">
         </a-entity>
 
-        <a-entity id="car3" gltf-model="./models/Beautiful_car/Porsche 911 Turbo.glb" position="15 0 -15"
-            rotation="0 -45" scale="0.8 0.8 0.8" class="clickable" data-model="Porsche 911 Turbo" data-year="2020"
-            data-price="$170,000 USD" data-color="Black">
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="50 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car3" gltf-model="./models/Beautiful_car/Porsche 911 Turbo.glb" position="30 0.3 -15"
+            rotation="0 -45" scale="1.05 1.05 1.05" class="clickable" data-model="Porsche 911 Turbo" data-year="2020"
+            data-price="$170,000 USD" data-color="Red">
         </a-entity>
 
-        <a-entity id="car4" gltf-model="./models/Beautiful_car/2019 Bugatti Divo.glb" position="5 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="30 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car4" gltf-model="./models/Beautiful_car/2019 Bugatti Divo.glb" position="10 0.4 -15"
             rotation="0 -45" scale="200 200 200" class="clickable" data-model="Bugatti Divo" data-year="2019"
-            data-price="$5,800,000 USD" data-color="Blue">
+            data-price="$5,800,000 USD" data-color="White">
         </a-entity>
 
-        <a-entity id="car5" gltf-model="./models/Beautiful_car/2021 Pagani Imola.glb" position="-5 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="10 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car5" gltf-model="./models/Beautiful_car/2021 Pagani Imola.glb" position="-10 0.3 -15"
             rotation="0 45" scale="180 180 180" class="clickable" data-model="Pagani Imola" data-year="2021"
-            data-price="$5,400,000 USD" data-color="Silver">
+            data-price="$5,400,000 USD" data-color="Blue">
         </a-entity>
 
-        <a-entity id="car6" gltf-model="./models/Beautiful_car/2021 Maserati MC20.glb" position="-15 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-10 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car6" gltf-model="./models/Beautiful_car/2021 Maserati MC20.glb" position="-30 0.3 -15"
             rotation="0 45" scale="180 180 180" class="clickable" data-model="Maserati MC20" data-year="2021"
-            data-price="$210,000 USD" data-color="White">
+            data-price="$210,000 USD" data-color="Yellow">
         </a-entity>
 
-        <a-entity id="car7" gltf-model="./models/Beautiful_car/Aston Martin F1 AMR23 2023.glb" position="-25 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-30 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car7" gltf-model="./models/Beautiful_car/Aston Martin F1 AMR23 2023.glb" position="-50 0.3 -15"
             rotation="0 45" scale="2 2 2" class="clickable" data-model="Aston Martin F1 AMR23" data-year="2023"
             data-price="$3,000,000 USD" data-color="Green">
         </a-entity>
 
-        <a-entity id="car8" gltf-model="./models/Beautiful_car/2018 Lotus Evora GT430.glb" position="-35 0 -15"
-            rotation="0 45" scale="150 150 150" class="clickable" data-model="Lotus Evora GT430" data-year="2018"
-            data-price="$120,000 USD" data-color="Yellow">
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-50 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <a-entity id="car8" gltf-model="./models/Beautiful_car/2018 Lotus Evora GT430.glb" position="-70 0.3 -15"
+            rotation="0 45" scale="180 180 180" class="clickable" data-model="Lotus Evora GT430" data-year="2018"
+            data-price="$120,000 USD" data-color="Black">
+        </a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-70 -0.8 0"
+            scale="15 15 15"></a-entity>
+
+        <!-- ตกแต่ง -->
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 270 0" position="0 0.045 0"
+            scale="2. 0.5 0.3">
+        </a-entity>
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 0 0" position="0 0.04 -6"
+            scale="27 0.5 0.3">
+        </a-entity>
+
+        <!-- rabbit -->
+        <a-asset-item id="rabbit3" src="./models/decorate/Rabbit.glb"></a-asset-item>
+        <a-entity id="rabbit-runner" gltf-model="#rabbit3" position="-39 0 -5.5" rotation="0 60 0"
+            scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|Jump_Land; timeScale: 0.35"
+            class="interactive" data-name="Rabbit normal" data-message="Come jump around and look at the cars with me!">
+        </a-entity>
+
+        <!-- Boothhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh -->
+        <a-entity gltf-model="./models/booth/3D Exhibition Stand 014.glb" rotation="0 180 0" position="-73.8 0.04 3"
+            scale="0.02 0.02 0.02">
+        </a-entity>
+        <a-entity gltf-model="./models/booth/Croquet Booth 3D Model.glb" rotation="0 180 0" position="71 0.04 1.6"
+            scale="2 2 2">
+        </a-entity>
+        <a-entity gltf-model="./models/booth/Expo Showcase Plan 3D.glb" rotation="0 180 0" position="50 0.04 2.8"
+            scale="0.04 0.04 0.04">
+        </a-entity>
+        <a-entity gltf-model="./models/booth/Property Exhibitions Booth.glb" rotation="0 180 0" position="-50 0.04 -11"
+            scale="0.07 0.07 0.071">
+        </a-entity>
+        <a-entity gltf-model="./models/booth/Stand CalienteMX AMT Acapulco.glb" rotation="0 180 0" position="-40 0.04 3"
+            scale="1.3 1.3 1.3">
         </a-entity>
 
 
         <!-- car showroom -->
-        <!-- <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 0"
-            scale="3 4 2"></a-entity> -->
-        <!-- car showroom -->
         <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 -10"
-            scale="3 4 1.25"></a-entity>
+            scale="6 4 1.2"></a-entity>
+
+        <!-- car showroom -->
+        <!-- <a-entity gltf-model="./models/showroom/Show Room Tekom.glb" rotation="0 0 0" position="0 0 -10"
+            scale="3 4 1.25"></a-entity> -->
+        <!-- <a-entity gltf-model="./models/showroom/car-showroom_2.glb" rotation="0 0 0" position="0 0 -10"
+            scale="3 4 1.25"></a-entity> -->
 
         <!-- Camera with Enhanced Controls -->
-        <a-entity position="0 0 0" rotation="0 0 0">
+        <a-entity position="0 0.5 0" rotation="0 0 0">
             <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
                 <a-cursor color="#FFFFFF"
                     animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
             </a-camera>
         </a-entity>
-
 
         <!-- เพิ่มแสง Ambient -->
         <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
@@ -103,16 +176,37 @@
         <!-- เพิ่มแสง Point -->
         <a-light type="point" position="0 3 0" intensity="2" color="#ffffff"></a-light>
 
+        <!-- เพลงพื้นหลัง -->
+        <audio id="background-audio" autoplay loop>
+            <source src="./sound/sound background/Relaxing Music.mp3" type="audio/mpeg">
+        </audio>
     </a-scene>
 
+    <!-- Dialog box -->
+    <div id="dialog-box" class="dialog-box">
+        <div id="character-name" class="character-name"></div>
+        <div id="dialog-text" class="dialog-text"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dialogbox.js"></script>
     <script>
+        ////////////////////// ฟังก์เพลงพื้นหลัง ////////////////////////////
+        // เข้าถึงแท็ก <audio>
+        const backgroundAudio = document.getElementById('background-audio');
+
+        // ตั้งค่าเสียง (ค่าระหว่าง 0.0 ถึง 1.0)
+        backgroundAudio.volume = 0.02; // ลดระดับเสียงลง 50%
+        // backgroundAudio.muted = true; // ปิดเสียง
+
+
         // ฟังก์ชันประตู 1
         AFRAME.registerComponent('portal-one', {
             init: function () {
                 this.camera = document.querySelector('a-camera');
                 this.portalActivated = false;
                 this.raycaster = new THREE.Raycaster();
-                this.raycaster.far = 5;
+                this.raycaster.far = 1;
             },
 
             tick: function () {
@@ -135,115 +229,30 @@
             }
         });
 
-        // ฟังก์ชันหมุนรถ
-        function rotateCar(car) {
-            let rotation = 0;
-            const initialPosition = car.getAttribute('position');
-            const initialRotation = car.getAttribute('rotation');
+        //rabbit run
+        const rabbit = document.querySelector('#rabbit-runner');
+        let direction = 1; // กำหนดทิศทาง (1 = ไปข้างหน้า, -1 = ย้อนกลับ)
+        const speed = 0.25; // ความเร็ว
+        const maxX = 39; // ขอบเขตด้านขวา
+        const minX = -39; // ขอบเขตด้านซ้าย
 
-            // สร้าง interval สำหรับการหมุน
-            const rotateInterval = setInterval(() => {
-                rotation += 1;
-                car.setAttribute('rotation', `0 ${rotation} 0`);
+        function moveRabbit() {
+            const position = rabbit.object3D.position;
 
-                if (rotation >= 360) {
-                    rotation = 0;
-                }
-            }, 16);
+            // เคลื่อนที่ในแกน X
+            position.x += speed * direction;
 
-            // ส่งค่า interval กลับเพื่อใช้ในการหยุดการหมุน
-            return {
-                interval: rotateInterval,
-                resetPosition: () => {
-                    car.setAttribute('position', initialPosition);
-                    car.setAttribute('rotation', initialRotation);
-                }
-            };
-        }
-
-        //////////////////////////// pop-up function ////////////////////////////////
-        const popup = document.querySelector('#popup');
-        const popupTitle = document.querySelector('#popup-title');
-        const popupModel = document.querySelector('#popup-model');
-        const popupYear = document.querySelector('#popup-year');
-        const popupPrice = document.querySelector('#popup-price');
-        const popupColor = document.querySelector('#popup-color');
-        const camera = document.querySelector('a-camera');
-        const MAX_DISTANCE = 9;
-
-        let pointerLocked = false;
-        let currentRotation = null; // เก็บข้อมูลการหมุนปัจจุบัน
-
-        // เพิ่ม event listener สำหรับรถทุกคัน
-        document.querySelectorAll('.clickable').forEach(car => {
-            car.addEventListener('click', function () {
-                const carPosition = new THREE.Vector3();
-                car.object3D.getWorldPosition(carPosition);
-
-                const cameraPosition = new THREE.Vector3();
-                camera.object3D.getWorldPosition(cameraPosition);
-
-                const distance = carPosition.distanceTo(cameraPosition);
-
-                if (distance <= MAX_DISTANCE) {
-                    // ดึงข้อมูลรถ
-                    const model = car.getAttribute('data-model');
-                    const year = car.getAttribute('data-year');
-                    const price = car.getAttribute('data-price');
-                    const color = car.getAttribute('data-color');
-
-                    // อัปเดตเนื้อหา popup
-                    popupTitle.textContent = 'Car Details';
-                    popupModel.textContent = `Model: ${model}`;
-                    popupYear.textContent = `Year: ${year}`;
-                    popupPrice.textContent = `Price: ${price}`;
-                    popupColor.textContent = `Color: ${color}`;
-
-                    // แสดง popup และเริ่มหมุนรถ
-                    popup.style.display = 'block';
-                    currentRotation = rotateCar(car);
-                    car.classList.add('no-click'); // ป้องกันการคลิกซ้ำ
-                    disablePointerLock();
-                } else {
-                    console.log(`Too far to interact with the car. Distance: ${distance.toFixed(2)} meters`);
-                }
-            });
-        });
-
-        // ฟังก์ชันปิด popup
-        function closePopup() {
-            if (currentRotation) {
-                clearInterval(currentRotation.interval); // หยุดการหมุน
-                currentRotation.resetPosition(); // รีเซ็ตตำแหน่งรถ
-                currentRotation = null;
+            // ตรวจสอบขอบเขต
+            if (position.x >= maxX || position.x <= minX) {
+                direction *= -1; // เปลี่ยนทิศทาง
+                // เปลี่ยน rotation ตามทิศทาง
+                rabbit.setAttribute('rotation', `0 ${direction === 1 ? 120 : -120} 0`);
             }
 
-            popup.style.display = 'none';
-            document.querySelectorAll('.clickable').forEach(car => {
-                car.classList.remove('no-click'); // เปิดใช้งานการคลิกอีกครั้ง
-            });
-            enablePointerLock();
+            requestAnimationFrame(moveRabbit); // เรียกฟังก์ชันซ้ำ
         }
 
-        function disablePointerLock() {
-            document.exitPointerLock();
-            pointerLocked = false;
-        }
-
-        function enablePointerLock() {
-            const scene = document.querySelector('a-scene');
-            scene.requestPointerLock();
-            pointerLocked = true;
-        }
-
-        // Event listeners สำหรับการปิด popup
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && popup.style.display === 'block') {
-                closePopup();
-            }
-        });
-
-        document.querySelector('.close-btn').addEventListener('click', closePopup);
+        moveRabbit(); // เริ่มการเคลื่อนไหว
 
     </script>
 </body>

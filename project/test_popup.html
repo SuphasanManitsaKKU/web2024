@@ -1,95 +1,101 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <style>
-      .popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        width: 300px;
-        text-align: center;
-        display: none;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-      }
-      .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
-        cursor: pointer;
-        z-index: 20;
-      }
-      .popup h3, .popup p {
-        color: black;
-      }
-    </style>
-  </head>
-  <body>
-    <a-scene>
-      <!-- โมเดลรถ -->
-      <a-entity id="car1" gltf-model="./models/Beautiful_car/tesla_model_s.glb" 
-      position="0 0 -5" 
-      rotation="0 -90 0" 
-      scale="0.03 0.03 0.03" 
-      class="clickable" 
-      data-model="Car 1" data-year="2021" data-price="$50,000" data-color="Blue" 
-      cursor="rayOrigin: mouse">
+
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <style>
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .popup h3,
+    .popup p {
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene>
+    <!-- โมเดลรถ -->
+    <a-entity id="car1" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="0 0 -5" rotation="0 -90 0"
+      scale="0.03 0.03 0.03" class="clickable" data-model="Car 1" data-year="2021" data-price="$50,000"
+      data-color="Blue" cursor="rayOrigin: mouse">
     </a-entity>
-      
-      <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="5d 0 -5" rotation="0 -90 0" scale="0.03 0.03 0.03sd" class="clickable" data-model="Car 2" data-year="2022" data-price="$60,000" data-color="Red" cursor="rayOrigin: mouse"></a-entity>
-      
-      <a-entity id="car3" gltf-model="./models/car3.glb" sdposition="4 0 -5" rotation="0 -90 0" scale="0.03 0.03 0.03" class="clickable" data-model="Car 3" data-year="2023" data-price="$70,000" data-color="Green" cursor="rayOrigin: mouse"></a-entity>
 
-      <!-- Pop-up window -->
-      <div id="popup" class="popup">
-        <div class="close-btn" onclick="closePopup()">X</div>
-        <h3 id="popup-title">Car Details</h3>
-        <p id="popup-model"></p>
-        <p id="popup-year"></p>
-        <p id="popup-price"></p>
-        <p id="popup-color"></p>
-      </div>
-    </a-scene>
+    <a-entity id="car2" gltf-model="./models/Beautiful_car/tesla_model_s.glb" position="5d 0 -5" rotation="0 -90 0"
+      scale="0.03 0.03 0.03sd" class="clickable" data-model="Car 2" data-year="2022" data-price="$60,000"
+      data-color="Red" cursor="rayOrigin: mouse"></a-entity>
 
-    <script>
-      const popup = document.querySelector('#popup');
-      const popupTitle = document.querySelector('#popup-title');
-      const popupModel = document.querySelector('#popup-model');
-      const popupYear = document.querySelector('#popup-year');
-      const popupPrice = document.querySelector('#popup-price');
-      const popupColor = document.querySelector('#popup-color');
+    <a-entity id="car3" gltf-model="./models/car3.glb" sdposition="4 0 -5" rotation="0 -90 0" scale="0.03 0.03 0.03"
+      class="clickable" data-model="Car 3" data-year="2023" data-price="$70,000" data-color="Green"
+      cursor="rayOrigin: mouse"></a-entity>
 
-      // เพิ่ม event listener ให้กับโมเดลรถทั้งหมด
-      document.querySelectorAll('.clickable').forEach(car => {
-        car.addEventListener('click', function () {
-          // ดึงข้อมูลจาก data-* attribute ของรถที่คลิก
-          const model = car.getAttribute('data-model');
-          const year = car.getAttribute('data-year');
-          const price = car.getAttribute('data-price');
-          const color = car.getAttribute('data-color');
+    <!-- Pop-up window -->
+    <div id="popup" class="popup">
+      <div class="close-btn" onclick="closePopup()">X</div>
+      <h3 id="popup-title">Car Details</h3>
+      <p id="popup-model"></p>
+      <p id="popup-year"></p>
+      <p id="popup-price"></p>
+      <p id="popup-color"></p>
+    </div>
+  </a-scene>
 
-          // อัปเดตเนื้อหาใน pop-up
-          popupTitle.textContent = 'Car Details';
-          popupModel.textContent = `Model: ${model}`;
-          popupYear.textContent = `Year: ${year}`;
-          popupPrice.textContent = `Price: ${price}`;
-          popupColor.textContent = `Color: ${color}`;
+  <script>
+    const popup = document.querySelector('#popup');
+    const popupTitle = document.querySelector('#popup-title');
+    const popupModel = document.querySelector('#popup-model');
+    const popupYear = document.querySelector('#popup-year');
+    const popupPrice = document.querySelector('#popup-price');
+    const popupColor = document.querySelector('#popup-color');
 
-          // แสดง pop-up
-          popup.style.display = 'block';
-        });
+    // เพิ่ม event listener ให้กับโมเดลรถทั้งหมด
+    document.querySelectorAll('.clickable').forEach(car => {
+      car.addEventListener('click', function () {
+        // ดึงข้อมูลจาก data-* attribute ของรถที่คลิก
+        const model = car.getAttribute('data-model');
+        const year = car.getAttribute('data-year');
+        const price = car.getAttribute('data-price');
+        const color = car.getAttribute('data-color');
+
+        // อัปเดตเนื้อหาใน pop-up
+        popupTitle.textContent = 'Car Details';
+        popupModel.textContent = `Model: ${model}`;
+        popupYear.textContent = `Year: ${year}`;
+        popupPrice.textContent = `Price: ${price}`;
+        popupColor.textContent = `Color: ${color}`;
+
+        // แสดง pop-up
+        popup.style.display = 'block';
       });
+    });
 
-      // ฟังก์ชันปิด pop-up
-      function closePopup() {
-        popup.style.display = 'none';
-      }
-    </script>
-  </body>
+    // ฟังก์ชันปิด pop-up
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+  </script>
+</body>
+
 </html>

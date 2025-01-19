@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FPS Character with Model</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script>
+    // Component สำหรับการเคลื่อนที่แบบ FPS
+    AFRAME.registerComponent('fps-controls', {
+      schema: {
+        speed: { type: 'number', default: 5 }
+      },
+      init: function () {
+        this.direction = new THREE.Vector3();
+        this.keys = { w: false, a: false, s: false, d: false };
+        window.addEventListener('keydown', this.onKeyDown.bind(this));
+        window.addEventListener('keyup', this.onKeyUp.bind(this));
+      },
+      onKeyDown: function (event) {
+        const key = event.key.toLowerCase();
+        if (key in this.keys) this.keys[key] = true;
+      },
+      onKeyUp: function (event) {
+        const key = event.key.toLowerCase();
+        if (key in this.keys) this.keys[key] = false;
+      },
+      tick: function (time, timeDelta) {
+        const el = this.el;
+        const data = this.data;
+        const direction = this.direction;
+
+        // รีเซ็ตทิศทาง
+        direction.set(0, 0, 0);
+
+        // ตรวจจับการกดปุ่มเพื่อปรับทิศทาง
+        if (this.keys.w) direction.z -= 1;
+        if (this.keys.s) direction.z += 1;
+        if (this.keys.a) direction.x -= 1;
+        if (this.keys.d) direction.x += 1;
+
+        // คำนวณความเร็ว
+        direction.normalize().multiplyScalar(data.speed * timeDelta / 1000);
+
+        // คำนวณตำแหน่งใหม่
+        const position = el.object3D.position;
+        position.x += direction.x;
+        position.z += direction.z;
+      }
+    });
+  </script>
+</head>
+<body>
+  <a-scene>
+    <!-- พื้นที่ -->
+    <a-plane rotation="-90 0 0" width="50" height="50" color="#7BC8A4"></a-plane>
+
+    <!-- แสง -->
+    <a-light type="directional" position="0 10 0" intensity="1"></a-light>
+    <a-light type="ambient" intensity="0.5"></a-light>
+
+    <!-- ตัวละคร -->
+    <a-entity id="character" position="0 1.6 0" fps-controls>
+      <!-- กล้อง -->
+      <a-entity 
+        camera 
+        position="0 1.5 0" 
+        look-controls="pointerLockEnabled: true">
+        <a-cursor color="#FFFFFF"></a-cursor>
+      </a-entity>
+      
+      <!-- โมเดลตัวละคร -->
+      <a-entity 
+        position="0 -1.6 0" 
+        gltf-model="url(https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/SimpleCharacter/glTF/SimpleCharacter.gltf)"
+        animation-mixer>
+      </a-entity>
+    </a-entity>
+  </a-scene>
+</body>
+</html>

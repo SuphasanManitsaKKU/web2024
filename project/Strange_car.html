@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./controll.js"></script>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
@@ -12,55 +14,140 @@
 
 <body>
     <a-scene>
+
+        <!-- Pop-up window -->
+        <div id="popup" class="popup">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <h3 id="popup-title">Car Details</h3>
+            <p id="popup-model"></p>
+            <p id="popup-year"></p>
+            <p id="popup-price"></p>
+            <p id="popup-color"></p>
+            <p class="esc-hint">*Click the car model again to close the popup.</p>
+        </div>
+
+
         <!-- ประตูวาร์ป 1: ไปที่ Hall.html -->
         <a-entity rotation="0 180" position="0 0 5.5" portal-one static-body>
-            <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
+            <!-- <a-box position="1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
             <a-box position="-1.5 1.5 0" width="0.5" height="3" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box>
-            <a-box position="0 1.5 0" width="2.8" height="2.8" depth="0.1" material="opacity: 0.2; color: orange"
+            <a-box position="0 3 0" width="3.5" height="0.5" depth="0.2" color="#8B4513" static-body></a-box> -->
+            <a-box position="0 1.5 -0.5" width="2.8" height="3.2" depth="0.1" material="opacity: 0.2; color: orange"
                 static-body>
                 <!-- <a-light type="point" intensity="0.5" color="#4B0082" position="0 0 0"></a-light> -->
             </a-box>
-            <a-text value="Walk through to Hall Car" position="0 3.5 0" align="center" color="white"
-                scale="1 1 1"></a-text>
+            <!-- กรอบข้อความ -->
+            <a-box position="0 4.5 -0.75" depth="0.1" width="3.5" height="1.2" color="black" material="opacity: 0.8">
+            </a-box>
+
+            <!-- ข้อความ -->
+            <a-text value="Walk through to Hall Car" position="0 4.5 -0.65" align="center" color="white"
+                scale="1.2 1.2 1.2">
+            </a-text>
+        </a-entity>
+        <!-- กรอบประตู-->
+        <a-entity gltf-model="./models/decorate/Sci Fi Gate 3D Model.glb" rotation="0 0 0" position="0.75 0 6.25"
+            scale="0.3 0.25 0.25">
         </a-entity>
 
         <!-- รถแปลกๆ -->
-        <a-entity id="car1" gltf-model="./models/strange_car/Buggy 3D Model by Nick Slough.glb" position="40 1 -15"
+        <a-entity id="car1" gltf-model="./models/strange_car/Buggy 3D Model by Nick Slough.glb" position="40 1.3 -15"
             rotation="0 45 0" scale="2 2 2" class="clickable" data-model="Buggy 3D Model" data-year="2022"
-            data-price="$25,000 USD" data-color="Yellow"></a-entity>
+            data-price="$25,000 USD" data-color="Orange"></a-entity>
 
-        <a-entity id="car2" gltf-model="./models/strange_car/Low Poly Truck Drifter.glb" position="30 0.5 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="40 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car2" gltf-model="./models/strange_car/Low Poly Truck Drifter.glb" position="30 0.7 -15"
             rotation="0 -135 0" scale="0.01 0.01 0.01" class="clickable" data-model="Low Poly Truck Drifter"
-            data-year="2020" data-price="$15,000 USD" data-color="Blue"></a-entity>
+            data-year="2020" data-price="$15,000 USD" data-color="Orange"></a-entity>
 
-        <a-entity id="car3" gltf-model="./models/strange_car/Car 3D Model by Cuadot.glb" position="20 0 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="30 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car3" gltf-model="./models/strange_car/Car 3D Model by Cuadot.glb" position="20 0.2 -15"
             rotation="0 -45 0" scale="1.2 1.2 1.2" class="clickable" data-model="Car 3D Model by Cuadot"
-            data-year="2021" data-price="$10,000 USD" data-color="Red"></a-entity>
+            data-year="2021" data-price="$10,000 USD" data-color="Light-Ggreen"></a-entity>
 
-        <a-entity id="car4" gltf-model="./models/strange_car/Old Rusty Car.glb" position="10 0 -15" rotation="0 -45 0"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="20 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car4" gltf-model="./models/strange_car/Old Rusty Car.glb" position="10 0.5 -15" rotation="0 -45 0"
             scale="0.01 0.01 0.01" class="clickable" data-model="Old Rusty Car" data-year="1978" data-price="$3,000 USD"
             data-color="Rusty Brown"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="10 -0.2 -5"
+            scale="10 10 10"></a-entity>
 
         <a-entity id="car5" gltf-model="./models/strange_car/Cybertruck.glb" position="0 1 -15" rotation="0 0 0"
             scale="2 2 2" class="clickable" data-model="Cybertruck" data-year="2023" data-price="$60,000 USD"
             data-color="Silver"></a-entity>
 
-        <a-entity id="car6" gltf-model="./models/strange_car/McQueen 3D Model.glb" position="-10 0 -15"
-            rotation="0 45 0" scale="1.5 1.5 1.5" class="clickable" data-model="McQueen 3D Model" data-year="2015"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="0 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car6" gltf-model="./models/strange_car/McQueen 3D Model.glb" position="-10 0.2 -15"
+            rotation="0 45 0" scale="1.5 1.5 1.5" class="clickable" data-model="McQueen" data-year="2015"
             data-price="$20,000 USD" data-color="Red"></a-entity>
 
-        <a-entity id="car7" gltf-model="./models/strange_car/Chevrolet Camaro 3D Model.glb" position="-20 -0.3 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-10 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car7" gltf-model="./models/strange_car/Chevrolet Camaro 3D Model.glb" position="-20 -0.2 -15"
             rotation="0 45 0" scale="1.5 1.5 1.5" class="clickable" data-model="Chevrolet Camaro" data-year="2020"
-            data-price="$40,000 USD" data-color="Black"></a-entity>
+            data-price="$40,000 USD" data-color="Red"></a-entity>
 
-        <a-entity id="car8" gltf-model="./models/strange_car/Nissan GTR 3D Model.glb" position="-30 1 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-20 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car8" gltf-model="./models/strange_car/Nissan GTR 3D Model.glb" position="-30 1.1 -15"
             rotation="0 45 0" scale="1 1 1" class="clickable" data-model="Nissan GTR" data-year="2022"
-            data-price="$100,000 USD" data-color="White"></a-entity>
+            data-price="$100,000 USD" data-color="Blue"></a-entity>
 
-        <a-entity id="car9" gltf-model="./models/strange_car/1994 Nissan 180MX 3D Model.glb" position="-40 1 -15"
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-30 -0.5 -5"
+            scale="10 10 10"></a-entity>
+
+        <a-entity id="car9" gltf-model="./models/strange_car/1994 Nissan 180MX 3D Model.glb" position="-40 1.1 -15"
             rotation="0 56 0" scale="0.5 0.5 0.5" class="clickable" data-model="1994 Nissan 180MX" data-year="1994"
-            data-price="$8,000 USD" data-color="Green"></a-entity>
+            data-price="$8,000 USD" data-color="Red"></a-entity>
+
+        <a-entity id="moto4" gltf-model="./models/showroom/Podium 3D Model by Maks Art22.glb" position="-40 -0.5 -5"
+            scale="10 10 10"></a-entity> // z -10 y + 0.7
+
+        <!-- ตกแต่ง -->
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 270 0" position="0 0.045 0"
+            scale="3.5 0.5 0.3">
+        </a-entity>
+        <a-entity gltf-model="./models/decorate/Red_Carpet_3D_Model.glb" rotation="0 0 0" position="0 0.04 -9"
+            scale="15.5 0.5 0.3">
+        </a-entity>
+
+        <a-asset-item id="rabbit" src="./models/decorate/Rabbit-Cyan-Hair.glb"></a-asset-item>
+        <a-asset-item id="rabbit2" src="./models/decorate/Rabbit Grey.glb"></a-asset-item>
+        <a-asset-item id="rabbit3" src="./models/decorate/Rabbit with Pigtails (1).glb"></a-asset-item>
+        <!-- Rabbit -->
+        <a-entity gltf-model="#rabbit" position="5 0 -5" rotation="0 -50 0" scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|Sitting_Idle; timeScale: 1"
+            class="interactive" data-name="Rabbit Cyan Hair" data-message="I can't decide what to look at!">
+        </a-entity>
+        <a-entity gltf-model="#rabbit2" position="3.5 0 -5" rotation="0 60 0" scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|No; timeScale: 0.35"
+            class="interactive" data-name="Rabbit Grey" data-message="I'm so hungry!">
+        </a-entity>
+        <a-entity id="rabbit-runner" gltf-model="#rabbit3" position="-28 0 -8.5" rotation="0 60 0"
+            scale="0.45 0.45 0.45"
+            animation-mixer="clip: CharacterArmature|CharacterArmature|CharacterArmature|Run; timeScale: 1"
+            class="interactive" data-name="Rabbit with Pigtails" data-message="I'm so excited about the cars!">
+        </a-entity>
+
+
+        <!-- Booth -->
+        <a-entity gltf-model="./models/booth/MetaFactory Booth 3D Model.glb" rotation="0 270 0"
+            position="-37.9 0.04 1.1" scale="1 1 1">
+        </a-entity>
+        <a-entity gltf-model="./models/booth/Exhibition Booth 3D Model.glb" rotation="0 180 0"
+            position="46.55 0.04 -3.3" scale="2 2 2">
+        </a-entity>
 
 
         <!-- car showroom -->
@@ -68,22 +155,50 @@
             scale="3.5 4 1.25"></a-entity>
 
         <!-- Camera with Enhanced Controls -->
-        <a-entity position="0 0 0" rotation="0 0 0">
+        <a-entity position="0 0.5 0" rotation="0 0 0">
             <a-camera look-controls="pointerLockEnabled: true" wasd-controls>
                 <a-cursor color="#FFFFFF"
                     animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"></a-cursor>
             </a-camera>
         </a-entity>
+
+        <!-- เพิ่มแสง Ambient -->
+        <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Directional -->
+        <a-light type="directional" position="5 10 5" intensity="1" color="#ffffff"></a-light>
+
+        <!-- เพิ่มแสง Point -->
+        <a-light type="point" position="0 3 0" intensity="2" color="#ffffff"></a-light>
+        <!-- เพลงพื้นหลัง -->
+        <audio id="background-audio" autoplay loop>
+            <source src="./sound/sound background/Relaxing Music.mp3" type="audio/mpeg">
+        </audio>
     </a-scene>
 
+    <!-- Dialog box -->
+    <div id="dialog-box" class="dialog-box">
+        <div id="character-name" class="character-name"></div>
+        <div id="dialog-text" class="dialog-text"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dialogbox.js"></script>
     <script>
+        ////////////////////// ฟังก์เพลงพื้นหลัง ////////////////////////////
+        // เข้าถึงแท็ก <audio>
+        const backgroundAudio = document.getElementById('background-audio');
+
+        // ตั้งค่าเสียง (ค่าระหว่าง 0.0 ถึง 1.0)
+        backgroundAudio.volume = 0.02; // ลดระดับเสียงลง 50%
+        // backgroundAudio.muted = true; // ปิดเสียง
         // ฟังก์ชันประตู 1
         AFRAME.registerComponent('portal-one', {
             init: function () {
                 this.camera = document.querySelector('a-camera');
                 this.portalActivated = false;
                 this.raycaster = new THREE.Raycaster();
-                this.raycaster.far = 5;
+                this.raycaster.far = 1;
             },
 
             tick: function () {
@@ -105,6 +220,32 @@
                 }
             }
         });
+
+        //rabbit run
+        const rabbit = document.querySelector('#rabbit-runner');
+        let direction = 1; // กำหนดทิศทาง (1 = ไปข้างหน้า, -1 = ย้อนกลับ)
+        const speed = 0.05; // ความเร็ว
+        const maxX = 32; // ขอบเขตด้านขวา
+        const minX = -28; // ขอบเขตด้านซ้าย
+
+        function moveRabbit() {
+            const position = rabbit.object3D.position;
+
+            // เคลื่อนที่ในแกน X
+            position.x += speed * direction;
+
+            // ตรวจสอบขอบเขต
+            if (position.x >= maxX || position.x <= minX) {
+                direction *= -1; // เปลี่ยนทิศทาง
+                // เปลี่ยน rotation ตามทิศทาง
+                rabbit.setAttribute('rotation', `0 ${direction === 1 ? 120 : -120} 0`);
+            }
+
+            requestAnimationFrame(moveRabbit); // เรียกฟังก์ชันซ้ำ
+        }
+
+        moveRabbit(); // เริ่มการเคลื่อนไหว
+
     </script>
 </body>
 
