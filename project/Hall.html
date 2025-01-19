@@ -132,6 +132,23 @@
                 }
             }
         });
+        // คอมโพเนนต์สำหรับการแสดง/ซ่อนกล่องข้อความ
+        AFRAME.registerComponent('toggle-message-box', {
+            schema: {
+                boxId: { type: 'string' } // ID ของกล่องข้อความที่จะควบคุม
+            },
+            init: function () {
+                // อ้างอิงถึงกล่องข้อความ
+                this.boxEl = document.querySelector(`#${this.data.boxId}`);
+                this.isVisible = false; // สถานะเริ่มต้น (ซ่อน)
+
+                // เพิ่ม Event Listener สำหรับการคลิก
+                this.el.addEventListener('click', () => {
+                    this.isVisible = !this.isVisible; // สลับสถานะ
+                    this.boxEl.setAttribute('visible', this.isVisible); // แสดง/ซ่อนกล่องข้อความ
+                });
+            }
+        });
     </script>
 </head>
 
@@ -157,7 +174,7 @@
 
             <a-box position="0 4.5 0" depth="0.1" width="3.2" height="1.2" color="black" material="opacity: 0.8">
             </a-box>
-            <a-text value="Walk through to Beautiful Car" position="0 4.5 0.1" align="center" color="white"
+            <a-text value="Walk through to Beautiful Car." position="0 4.5 0.1" align="center" color="white"
                 scale="1 1 1">
             </a-text>
             <!-- <a-text value="Walk through to Beautiful Car" position="0 3.4 0" align="center" color="white" scale="1 1 1"
@@ -179,7 +196,7 @@
             </a-box>
             <a-box position="0 4.5 0" depth="0.1" width="3.2" height="1.2" color="black" material="opacity: 0.8">
             </a-box>
-            <a-text value="Walk through to Motorcycle" position="0 4.5 0.1" align="center" color="white"
+            <a-text value="Walk through to Motorcycle." position="0 4.5 0.1" align="center" color="white"
                 scale="1.1 1.1 1.1">
             </a-text>
 
@@ -202,7 +219,7 @@
             <a-box position="0 4.5 0" depth="0.01" width="3.2" height="1.2" color="black" material="opacity: 0.8">
             </a-box>
 
-            <a-text value="Walk through to Strange Car" position="0 4.5 0.1" align="center" color="white"
+            <a-text value="Walk through to Strange Car." position="0 4.5 0.1" align="center" color="white"
                 scale="1.1 1.1 1.1">
             </a-text>
 
@@ -243,7 +260,7 @@
         </a-entity>
 
         <!-- ตกแต่ง -->
-        <a-entity gltf-model="./models/decorate/Avika_Street_Food_Cart.glb" rotation="0 90 0" position="-2.5 0 0"
+        <a-entity gltf-model="./models/decorate/Avika_Street_Food_Cart.glb" rotation="0 90 0" position="-2.75 0 0"
             scale="1.25 1.25 1.5" static-body>
         </a-entity>
         <a-entity gltf-model="./models/decorate/Coffee_Cart.glb" rotation="0 90 0" position="3 0 -1.5" scale="1 1 1">
